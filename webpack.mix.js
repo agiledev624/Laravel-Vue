@@ -10,6 +10,12 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/assets/js/app.js', 'public/js')
+mix.options({
+   autoprefixer: {remove: false},
+//    hmrOptions: {
+//       host: 'localhost',  // mysite.test is my local domain used for testing
+//       port: 8080,
+//   }
+});
+mix.js('resources/assets/js/app.js', 'public/js').vue({extractStyles: true, globalStyles: false})
    .sass('resources/assets/sass/app.scss', 'public/css');
