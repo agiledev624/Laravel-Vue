@@ -15,12 +15,13 @@ window.Vue.use(VueRouter);
 import CompaniesIndex from './components/companies/CompaniesIndex.vue';
 import CompaniesCreate from './components/companies/CompaniesCreate.vue';
 import CompaniesEdit from './components/companies/CompaniesEdit.vue';
+import FirstScreen from './components/FirstScreen.vue';
 
 const routes = [
     {
         path: '/',
         components: {
-            companiesIndex: CompaniesIndex
+            firstScreen: FirstScreen
         }
     },
     {path: '/admin/companies/create', component: CompaniesCreate, name: 'createCompany'},

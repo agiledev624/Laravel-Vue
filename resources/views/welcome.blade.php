@@ -11,6 +11,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -62,6 +63,17 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            /* .link {
+                font-weight: 300;
+                font-size: large;
+                height: 20%;
+                width: 20%;
+                border: solid 1px grey;
+                border-radius: 10px;
+                margin: 20px;
+                color: black !important;
+            } */
         </style>
     </head>
     <body>
@@ -78,6 +90,13 @@
             @endif
 
             <div class="content">
+            <div id="app">
+
+                        
+            <router-view name="firstScreen"></router-view>
+            @yield('content')
+            </div>
+            <!-- 
                 <div class="title m-b-md">
                     Laravel
                 </div>
@@ -88,8 +107,20 @@
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                </div> -->
             </div>
+            
+            
         </div>
+        <script>
+            function toCourier() {
+                window.location.href = '/courier';
+            }
+            function toOwner() {
+                window.location.href = '/owner';
+            }
+        </script>
+        <script src="{{ mix('js/app.js') }}"></script>
+        <!-- <script src="{{ asset('js/app.js') }}"></script> -->
     </body>
 </html>
