@@ -5,7 +5,7 @@
       <router-link :to="{ name: 'createCompany' }" class="btn btn-warning"
         >Courier</router-link
       >
-      <router-link :to="{ name: 'createCompany' }" class="btn btn-success"
+      <router-link :to="{ name: 'apartment' }" class="btn btn-success"
         >Owner</router-link
       >
     </div>
