@@ -25,4 +25,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('companies', 'CompaniesController@index')->name('companies.index');
 });
 
+Route::get('/admin', 'AdminController@index');
+Route::get('/superadmin', 'SuperAdminController@index');
+
 Route::get('/{any}', 'CompaniesController@index')->where('any', '.*');
