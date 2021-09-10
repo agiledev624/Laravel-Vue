@@ -16,7 +16,6 @@ import CompaniesIndex from './components/companies/CompaniesIndex.vue';
 import CompaniesCreate from './components/companies/CompaniesCreate.vue';
 import CompaniesEdit from './components/companies/CompaniesEdit.vue';
 import FirstScreen from './components/FirstScreen.vue';
-import ApartmentPage from './components/companies/ApartmentPage.vue';
 
 const routes = [
     {
@@ -27,7 +26,6 @@ const routes = [
     },
     {path: '/admin/companies/create', component: CompaniesCreate, name: 'createCompany'},
     {path: '/admin/companies/edit/:id', component: CompaniesEdit, name: 'editCompany'},
-    {path: '/admin/companies/apartment', component: ApartmentPage, name: 'apartment'},
 ]
 
 const router = new VueRouter({ routes })
