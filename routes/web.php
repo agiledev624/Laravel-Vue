@@ -16,7 +16,6 @@
 // });
 Route::get('/', 'CompaniesController@index');
 
-
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

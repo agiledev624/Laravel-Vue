@@ -14,7 +14,7 @@
               <label class="control-label"
                 >Apartment Number that your delivery is for</label
               >
-              <input type="text" v-model="company.name" class="form-control" />
+              <input type="text" v-model="company.owner" class="form-control" />
             </div>
           </div>
           <div class="row">
@@ -28,6 +28,9 @@
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
+                  @change="onChange($event)"
+                  value="0"
+                  checked
                 />
                 <label class="form-check-label" for="flexRadioDefault1">
                   Small
@@ -39,7 +42,8 @@
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
-                  checked
+                  @change="onChange($event)"
+                  value="1"
                 />
                 <label class="form-check-label" for="flexRadioDefault2">
                   Medium
@@ -50,10 +54,11 @@
                   class="form-check-input"
                   type="radio"
                   name="flexRadioDefault"
-                  id="flexRadioDefault2"
-                  checked
+                  id="flexRadioDefault3"
+                  @change="onChange($event)"
+                  value="2"
                 />
-                <label class="form-check-label" for="flexRadioDefault2">
+                <label class="form-check-label" for="flexRadioDefault3">
                   Large
                 </label>
               </div>
@@ -62,7 +67,7 @@
 
           <div class="row">
             <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success">Create</button>
+              <button class="btn btn-success">Open</button>
             </div>
           </div>
         </form>
@@ -76,25 +81,27 @@ export default {
   data: function () {
     return {
       company: {
-        name: "",
-        address: "",
-        website: "",
-        email: "",
+        size: "0",
+        owner: "",
       },
     };
   },
   methods: {
+    onChange(event) {
+      var data = event.target.value;
+      this.company.size = data;
+    },
     saveForm() {
       var app = this;
       var newCompany = app.company;
       axios
-        .post("/api/v1/companies", newCompany)
+        .post("/api/v1/lockers/new_assign", newCompany)
         .then(function (resp) {
-          app.$router.push({ path: "/" });
+          console.log(resp);
         })
         .catch(function (resp) {
           console.log(resp);
-          alert("Could not create your company");
+          alert("No available locker. Select another size.");
         });
     },
   },

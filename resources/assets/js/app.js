@@ -18,6 +18,8 @@ import CompaniesEdit from './components/companies/CompaniesEdit.vue';
 import FirstScreen from './components/FirstScreen.vue';
 import ApartmentPage from './components/companies/ApartmentPage.vue';
 import LockerSetting from './components/companies/LockerSetting.vue';
+import LockerList from './components/companies/LockerList.vue';
+import ApartList from './components/companies/ApartList.vue';
 import ApartmentSetting from './components/companies/ApartmentSetting.vue';
 const routes = [
     {
@@ -31,6 +33,8 @@ const routes = [
     {path: '/admin/companies/apartment', component: ApartmentPage, name: 'apartment'},
     {path: '/admin/companies/apartsetting', component: ApartmentSetting, name: 'apartSetting'},
     {path: '/admin/companies/lockersetting', component: LockerSetting, name: 'lockerSetting'},
+    {path: '/admin/companies/lockerlist', component: LockerList, name: 'lockerList'},
+    {path: '/admin/companies/apartlist', component: ApartList, name: 'apartList'},
 ]
 
 const router = new VueRouter({ routes })

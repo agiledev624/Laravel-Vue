@@ -36,7 +36,7 @@
           </div>
           <div class="row">
             <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success">Create</button>
+              <button class="btn btn-success">Open</button>
             </div>
           </div>
         </form>
@@ -60,9 +60,10 @@ export default {
       var app = this;
       var newCompany = app.company;
       axios
-        .post("/api/v1/companies", newCompany)
+        .post("/api/v1/lockers/open_lockers", newCompany)
         .then(function (resp) {
-          app.$router.push({ path: "/" });
+          console.log(resp.data);
+          // app.$router.push({ path: "/" });
         })
         .catch(function (resp) {
           console.log(resp);

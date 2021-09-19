@@ -3,8 +3,12 @@
   <div class="text-left">
     <div class="form-group">
       <router-link to="/" class="btn btn-default">Back</router-link>
+      <router-link
+        :to="{ name: 'apartList' }"
+        class="btn btn-default pull-right"
+        >Apartment List</router-link
+      >
     </div>
-
     <div class="panel panel-default">
       <div class="panel-heading">Apartment Page</div>
       <div class="panel-body">
@@ -25,7 +29,7 @@
               <label class="control-label">Phone Number</label>
               <input
                 type="text"
-                v-model="company.pin"
+                v-model="company.phone"
                 class="form-control"
                 placeholder="Example 0414 556 390"
               />
@@ -60,6 +64,7 @@ export default {
       company: {
         number: "",
         pin: "",
+        phone: "",
       },
     };
   },
@@ -68,9 +73,9 @@ export default {
       var app = this;
       var newCompany = app.company;
       axios
-        .post("/api/v1/companies", newCompany)
+        .post("/api/v1/aparts", newCompany)
         .then(function (resp) {
-          app.$router.push({ path: "/" });
+          console.log(resp);
         })
         .catch(function (resp) {
           console.log(resp);
