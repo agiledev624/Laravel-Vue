@@ -98,6 +98,7 @@ export default {
         .post("/api/v1/lockers/new_assign", newCompany)
         .then(function (resp) {
           console.log(resp);
+          alert(resp.data.message);
         })
         .catch(function (resp) {
           console.log(resp);

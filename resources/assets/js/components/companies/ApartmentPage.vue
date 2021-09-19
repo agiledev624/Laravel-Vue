@@ -63,6 +63,7 @@ export default {
         .post("/api/v1/lockers/open_lockers", newCompany)
         .then(function (resp) {
           console.log(resp.data);
+          alert(resp.data.message);
           // app.$router.push({ path: "/" });
         })
         .catch(function (resp) {
