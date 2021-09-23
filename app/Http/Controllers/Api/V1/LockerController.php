@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Locker;
+use App\Setting;
 use App\Apart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -109,7 +110,10 @@ class LockerController extends Controller
             send_rs232(1, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
-
+            $apart = Apart::where('number', $input['owner'])->first();
+            // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
+            $phone = $apart->phone;
+            send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
             $firstLocker->owner = $input['owner'];
             $firstLocker->save();
             $response = [

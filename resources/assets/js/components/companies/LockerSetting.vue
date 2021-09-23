@@ -48,7 +48,7 @@
           </div>
           <div class="row">
             <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success">Save</button>
+              <button class="btn btn-success">Update</button>
             </div>
           </div>
         </form>
@@ -171,7 +171,6 @@ export default {
   },
   mounted() {
     let app = this;
-    app.companyId = id;
     axios
       .get("/api/v1/settings/get_sms")
       .then(function (resp) {
