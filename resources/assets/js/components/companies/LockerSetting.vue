@@ -17,13 +17,19 @@
           <div class="row">
             <div class="col-xs-12 form-group">
               <label class="control-label">Comms port for SMS service</label>
-              <select class="form-control">
+              <!-- <select class="form-control">
                 <option>Com1</option>
                 <option>Com2</option>
                 <option>Com3</option>
                 <option>Com4</option>
                 <option>Com5</option>
-              </select>
+              </select> -->
+              <input
+                type="text"
+                v-model="sms.port"
+                class="form-control"
+                placeholder="port number"
+              />
             </div>
           </div>
           <div class="row">
@@ -34,7 +40,7 @@
               >
               <input
                 type="text"
-                v-model="company.pin"
+                v-model="sms.msg"
                 class="form-control"
                 placeholder="(apartment Phone number) - a package has arrived for you"
               />
@@ -145,6 +151,10 @@
 export default {
   data: function () {
     return {
+      sms: {
+        port: "",
+        msg: "",
+      },
       company: {
         number: "",
         pin: "",
@@ -159,6 +169,19 @@ export default {
       selected: "",
     };
   },
+  mounted() {
+    let app = this;
+    app.companyId = id;
+    axios
+      .get("/api/v1/settings/get_sms")
+      .then(function (resp) {
+        app.sms.port = resp.data.port;
+        app.sms.msg = resp.data.msg;
+      })
+      .catch(function () {
+        alert("Could not load your company");
+      });
+  },
   methods: {
     onChange(event) {
       var data = event.target.value;
@@ -166,11 +189,11 @@ export default {
     },
     saveForm() {
       var app = this;
-      var newCompany = app.company;
+      var newCompany = app.sms;
       axios
-        .post("/api/v1/companies", newCompany)
+        .post("/api/v1/settings/set_sms", newCompany)
         .then(function (resp) {
-          app.$router.push({ path: "/" });
+          // app.$router.push({ path: "/" });
         })
         .catch(function (resp) {
           console.log(resp);

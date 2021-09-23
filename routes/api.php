@@ -7,4 +7,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.', 'middl
     Route::post('lockers/open_lockers', 'LockerController@open_lockers')->name('lockers.open_lockers');
     Route::resource('lockers', 'LockerController');
     Route::resource('aparts', 'ApartController');
+    Route::post('settings/set_sms', 'SettingController@set_sms')->name('settings.set_sms');
+    Route::get('settings/get_sms', 'SettingController@get_sms')->name('settings.get_sms');
+    Route::resource('settings', 'SettingController');
 });
