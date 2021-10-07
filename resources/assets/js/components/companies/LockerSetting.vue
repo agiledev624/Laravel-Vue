@@ -205,7 +205,8 @@ export default {
       axios
         .post("/api/v1/lockers/add", newLocker)
         .then(function (resp) {
-          app.$router.push({ path: "/" });
+          //app.$router.push({ path: "/" });
+          console.log('success');
         })
         .catch(function (resp) {
           console.log(resp);
