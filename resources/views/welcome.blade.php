@@ -180,7 +180,7 @@
                 window.location.href = '/owner';
             }
         </script>
-        <script src="{{ mix('js/app.js') }}"></script>
-        <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+        <!-- <script src="{{ mix('js/app.js') }}"></script> -->
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
