@@ -1,0 +1,41 @@
+.panel {
+  @include box-shadow(0 4px 9px 5px rgba(0,0,0,.05));
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: transparent;
+}
+
+.navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-default {
+  background-color: #fff;
+  border-color: #9b9d9f;
+}
+.navbar-default .navbar-brand {
+  color: #fff;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: #fff;
+  background-color: transparent;
+}
+.navbar-default .navbar-text {
+  color: #777;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #54d400;
+  background-color: transparent;
+}
+
+.panel-body {
+  padding: 30px;
+}
+
+.panel-heading {
+  padding: 15px 22px;
+}
