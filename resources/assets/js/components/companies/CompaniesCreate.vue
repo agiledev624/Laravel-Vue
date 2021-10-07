@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="form-group text-left">
-      <router-link to="/" class="btn btn-default">Back</router-link>
+      <router-link to="/" class="btn btn-success">Back</router-link>
     </div>
 
     <div class="panel panel-default text-left">

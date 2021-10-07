@@ -2,7 +2,7 @@
 <template>
   <div class="text-left">
     <div class="form-group">
-      <router-link to="/" class="btn btn-default">Back</router-link>
+      <router-link to="/" class="btn btn-success">Back</router-link>
       <router-link
         :to="{ name: 'apartList' }"
         class="btn btn-default pull-right"

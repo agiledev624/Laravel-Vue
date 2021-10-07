@@ -2,10 +2,14 @@
 <template>
   <div>
     <div class="form-group">
-      <router-link :to="{ name: 'createCompany' }" class="btn btn-warning"
+      <router-link
+        :to="{ name: 'createCompany' }"
+        class="btn btn-warning text-large"
         >Courier</router-link
       >
-      <router-link :to="{ name: 'apartment' }" class="btn btn-success"
+      <router-link
+        :to="{ name: 'apartment' }"
+        class="btn btn-success text-large"
         >Owner</router-link
       >
     </div>
@@ -66,5 +70,8 @@ export default {
   margin: 20px;
   padding: 20px;
   color: black !important;
+}
+.text-large {
+  font-size: 20px;
 }
 </style>

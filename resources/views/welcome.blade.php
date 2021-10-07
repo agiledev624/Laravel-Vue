@@ -15,7 +15,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #eaeaea;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 height: 100vh;
@@ -23,7 +23,7 @@
             }
 
             .full-height {
-                height: 100vh;
+                height: 90vh;
             }
 
             .flex-center {
@@ -44,6 +44,7 @@
 
             .content {
                 text-align: center;
+                min-width: 40%;
             }
 
             .title {
@@ -63,6 +64,10 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .custom-navbar {
+                background: linear-gradient(45deg, #54d400 33%, #1b1e21 33%);
+                box-shadow: 0 1px 3px rgb(0 0 0 / 25%), inset 0 -1px 0 rgb(0 0 0 / 10%);
+            }
 
             /* .link {
                 font-weight: 300;
@@ -78,7 +83,7 @@
     </head>
     <body>
     <div id="app">
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top custom-navbar">
             <div class="container">
                 <div class="navbar-header">
 
