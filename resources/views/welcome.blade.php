@@ -14,61 +14,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
-            html, body {
-                background-color: #eaeaea;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 90vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-                min-width: 40%;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-            .custom-navbar {
-                background: linear-gradient(45deg, #54d400 33%, #1b1e21 33%);
-                box-shadow: 0 1px 3px rgb(0 0 0 / 25%), inset 0 -1px 0 rgb(0 0 0 / 10%);
-            }
-
+            
             /* .link {
                 font-weight: 300;
                 font-size: large;
