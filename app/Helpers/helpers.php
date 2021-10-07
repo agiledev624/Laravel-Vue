@@ -5,12 +5,13 @@ use Illuminate\Support\Facades\Auth;
 require_once('Sms.php');
 require_once('Sms/Interface.php');
 require_once('Sms/Serial.php');
-
+require_once('Sms/gsm_send_sms.php');
 $pin = 1234;
 
 
 if (!function_exists('send_rs232')) {
     function _str2hex($string) {
+        $string = str_replace(' ', '', $string);
         $str = '';
         for ($i = 0; $i < strlen($string); $i += 2) {
            $str .= chr(hexdec(substr($string, $i, 2)));
@@ -41,20 +42,31 @@ if (!function_exists('send_rs232')) {
 if (!function_exists('send_sms')) {
     function send_sms($port, $number, $msg) {
         try {
-            $pin = 1234;
-            $serial = new Sms_Serial;
-            $serial->deviceSet("/dev/ttyS".$port);
-            $serial->confBaudRate(9600);
-            $serial->confParity('none');
-            $serial->confCharacterLength(8);
             
-            $sms = Sms::factory($serial)->insertPin($pin);
 
-            if ($sms->sendSMS($number, $msg)) {
-                echo "SMS sent\n";
-            } else {
-                echo "Sent Error\n";
-            }
+            $gsm_send_sms = new gsm_send_sms();
+            $gsm_send_sms->debug = true;
+            $gsm_send_sms->port = 'COM'.$port;
+            $gsm_send_sms->baud = 9600;
+            $gsm_send_sms->init();
+
+            $status = $gsm_send_sms->send($number,$msg);
+            $gsm_send_sms->close();
+
+            // $pin = 1234;
+            // $serial = new Sms_Serial;
+            // $serial->deviceSet("/dev/ttyS".$port);
+            // $serial->confBaudRate(9600);
+            // $serial->confParity('none');
+            // $serial->confCharacterLength(8);
+            
+            // $sms = Sms::factory($serial)->insertPin($pin);
+
+            // if ($sms->sendSMS($number, $msg)) {
+            //     echo "SMS sent\n";
+            // } else {
+            //     echo "Sent Error\n";
+            // }
 
             // Now read inbox
             

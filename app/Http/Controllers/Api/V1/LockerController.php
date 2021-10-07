@@ -99,7 +99,7 @@ class LockerController extends Controller
     public function new_assign(Request $request)
     {
         $input = $request->all();
-        $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderByDesc('number')->get();
+        $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderBy('number')->get();
 
         if (!$locker->isEmpty()){
             $firstLocker = $locker->first();
@@ -107,7 +107,8 @@ class LockerController extends Controller
             // send rs232 to open the available locker
             // temporary set port as 1, get the result and check if succeed
 
-            send_rs232(1, $firstLocker->code);
+            // TODO reactivate this
+            // send_rs232(1, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
             $apart = Apart::where('number', $input['owner'])->first();
