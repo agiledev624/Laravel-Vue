@@ -74,8 +74,13 @@ export default {
       var newCompany = app.company;
       axios
         .post("/api/v1/aparts", newCompany)
-        .then(function (resp) {
+        .then((resp) => {
           console.log(resp);
+          this.$toast.success({
+            title: "Success",
+            message: "Created apartment.",
+            showMethod: "slideInRight",
+          });
         })
         .catch(function (resp) {
           console.log(resp);
