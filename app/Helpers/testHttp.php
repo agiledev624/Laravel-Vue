@@ -3,15 +3,16 @@ require_once('Sms.php');
 require_once('Sms/Interface.php');
 require_once('Sms/Http.php');
 
-$serialEternetConverterIP = '192.168.1.10';
-$serialEternetConverterPort = 1113;
+function send_via_eth() {
+$serialEternetConverterIP = '127.0.0.1';
+$serialEternetConverterPort = 5000;
 $pin = 1234;
 
 try {
     $sms = Sms::factory(new Sms_Http($serialEternetConverterIP, $serialEternetConverterPort));
     $sms->insertPin($pin);
 
-    if ($sms->sendSMS(555987654, "test Hi")) {
+    if ($sms->sendSMS(61414556390, "test Hi")) {
         echo "SMS Sent\n";
     } else {
         echo "Sent Error\n";
@@ -40,4 +41,5 @@ try {
         default:
             echo $e->getMessage();
     }
+}
 }

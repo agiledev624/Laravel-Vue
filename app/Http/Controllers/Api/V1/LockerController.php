@@ -108,7 +108,7 @@ class LockerController extends Controller
             // temporary set port as 1, get the result and check if succeed
 
             // TODO reactivate this
-            // send_rs232(1, $firstLocker->code);
+            send_rs232(4, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
             $apart = Apart::where('number', $input['owner'])->first();

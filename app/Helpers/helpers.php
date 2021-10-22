@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Auth;
 require_once('Sms.php');
 require_once('Sms/Interface.php');
 require_once('Sms/Serial.php');
-require_once('Sms/gsm_send_sms.php');
+require_once('Sms/Http.php');
+// require_once('Sms/gsm_send_sms.php');
+// require_once('Sms/gsm_send_sms1.php');
 $pin = 1234;
-
+require_once('testHttp.php');
 
 if (!function_exists('send_rs232')) {
     function _str2hex($string) {
@@ -44,14 +46,86 @@ if (!function_exists('send_sms')) {
         try {
             
 
-            $gsm_send_sms = new gsm_send_sms();
-            $gsm_send_sms->debug = true;
-            $gsm_send_sms->port = 'COM'.$port;
-            $gsm_send_sms->baud = 9600;
-            $gsm_send_sms->init();
 
-            $status = $gsm_send_sms->send($number,$msg);
-            $gsm_send_sms->close();
+$serialEternetConverterIP = '127.0.0.1';
+$serialEternetConverterPort = 5000;
+$pin = 1234;
+
+try {
+    $sms = Sms::factory(new Sms_Http($serialEternetConverterIP, $serialEternetConverterPort));
+    $sms->insertPin($pin);
+
+    if ($sms->sendSMS(61414556390, "test Hi")) {
+        echo "SMS Sent\n";
+    } else {
+        echo "Sent Error\n";
+    }
+
+    // Now read inbox
+    foreach ($sms->readInbox() as $in) {
+        echo"tlfn: {$in['tlfn']} date: {$in['date']} {$in['hour']}\n{$in['msg']}\n";
+
+        // now delete sms
+        if ($sms->deleteSms($in['id'])) {
+            echo "SMS Deleted\n";
+        }
+    }
+} catch (Exception $e) {
+    switch ($e->getCode()) {
+        case Sms::EXCEPTION_NO_PIN:
+            echo "PIN Not set\n";
+            break;
+        case Sms::EXCEPTION_PIN_ERROR:
+            echo "PIN Incorrect\n";
+            break;
+        case Sms::EXCEPTION_SERVICE_NOT_IMPLEMENTED:
+            echo "Service Not implemented\n";
+            break;
+        default:
+            echo $e->getMessage();
+    }
+}
+
+// $serial = new PhpSerial;
+//         $serial->deviceSet("COM".$port);
+//         $serial->confBaudRate(9600);
+//         $serial->confParity("none");
+//         $serial->confCharacterLength(8);
+//         $serial->confStopBits(1);
+//         $serial->confFlowControl("none");
+//         if ($serial->deviceOpen()) {
+//             $serial->sendMessage(_str2hex($hex_cmd));
+//             $read = $serial->readPort();
+//             $serial->deviceClose();
+//             return true;
+//         }
+//         return false;
+
+//         $serial->deviceSet("COM1");
+// $serial->confBaudRate(115200);
+
+// // Then we need to open it
+// $serial->deviceOpen();
+
+// // To write into
+// $serial->sendMessage("AT+CMGF=1\n\r"); 
+// $serial->sendMessage("AT+cmgs=\"+61414556390\"\n\r");
+// $serial->sendMessage("sms text\n\r");
+// $serial->sendMessage(chr(26));
+
+// //wait for modem to send message
+// sleep(7);
+// $read=$serial->readPort();
+// $serial->deviceClose();
+
+            // $gsm_send_sms = new gsm_send_sms();
+            // $gsm_send_sms->debug = true;
+            // $gsm_send_sms->port = 'COM'.$port;
+            // $gsm_send_sms->baud = 9600;
+            // $gsm_send_sms->init();
+
+            // $status = $gsm_send_sms->send($number,$msg);
+            // $gsm_send_sms->close();
 
             // $pin = 1234;
             // $serial = new Sms_Serial;

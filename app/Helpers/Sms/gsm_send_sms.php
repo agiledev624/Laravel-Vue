@@ -5,8 +5,8 @@
 //Send SMS via serial SMS modem
 class gsm_send_sms {
 
-	public $port = 'COM3';
-	public $baud = 115200;
+	public $port = 'COM1';
+	public $baud = 9600;
 
 	public $debug = false;
 
@@ -18,13 +18,13 @@ class gsm_send_sms {
 
 		$this->debugmsg("Setting up port: \"{$this->port} @ \"{$this->baud}\" baud");
 
-		// exec("MODE {$this->port}: BAUD={$this->baud} PARITY=N DATA=8 STOP=1", $output, $retval);
+		exec("MODE {$this->port}: BAUD={$this->baud} PARITY=N DATA=8 STOP=1", $output, $retval);
 
-		// if ($retval != 0) {
-		// 	throw new Exception('Unable to setup COM port, check it is correct');
-		// }
+		if ($retval != 0) {
+			throw new Exception('Unable to setup COM port, check it is correct');
+		}
 
-		// $this->debugmsg(implode("\n", $output));
+		$this->debugmsg(implode("\n", $output));
 
 		$this->debugmsg("Opening port");
 
