@@ -61,14 +61,24 @@ export default {
       var newCompany = app.company;
       axios
         .post("/api/v1/lockers/open_lockers", newCompany)
-        .then(function (resp) {
+        .then((resp) => {
           console.log(resp.data);
-          alert(resp.data.message);
+          this.$toast.success({
+            title: "Success",
+            message: "Please check your lockers.",
+            showMethod: "slideInRight",
+          });
+          // alert(resp.data.message);
           // app.$router.push({ path: "/" });
         })
-        .catch(function (resp) {
+        .catch((resp) => {
           console.log(resp);
-          alert("Could not create your company");
+          // alert("Could not create your company");
+          this.$toast.error({
+            title: "Error",
+            message: resp.data.message,
+            showMethod: "slideInRight",
+          });
         });
     },
   },

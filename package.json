@@ -23,6 +23,7 @@
         "vue-loader": "^15.9.8"
     },
     "dependencies": {
+        "cxlt-vue2-toastr": "^1.1.1",
         "node-sass": "^6.0.1",
         "vue-router": "^3.0.1",
         "vue-template-compiler": "^2.5.16",

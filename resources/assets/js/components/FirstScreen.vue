@@ -3,12 +3,12 @@
   <div>
     <div class="form-group">
       <router-link
-        :to="{ name: 'createCompany' }"
+        :to="{ name: 'courierPage' }"
         class="btn btn-warning text-large"
         >Courier</router-link
       >
       <router-link
-        :to="{ name: 'apartment' }"
+        :to="{ name: 'ownerPage' }"
         class="btn btn-success text-large"
         >Owner</router-link
       >

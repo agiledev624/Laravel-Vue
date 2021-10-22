@@ -108,13 +108,18 @@ class LockerController extends Controller
             // temporary set port as 1, get the result and check if succeed
 
             // TODO reactivate this
-            // send_rs232(1, $firstLocker->code);
+            send_rs232(1, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
+            if (Apart::where('number', $input['owner'])->isEmpty()) {
+                return response()->json([
+                    'message' => 'Apart number is invalid.'], 500);
+            }
             $apart = Apart::where('number', $input['owner'])->first();
             // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
             $phone = $apart->phone;
-            send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
+            // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
+            send_sms_via_gsm($phone, Setting::where('key', 'sms_msg')->first()->value);
             $firstLocker->owner = $input['owner'];
             $firstLocker->save();
             $response = [

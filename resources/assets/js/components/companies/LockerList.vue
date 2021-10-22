@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div class="form-group">
-      <router-link :to="{ name: 'createCompany' }" class="btn btn-success"
+    <div class="form-group text-left">
+      <router-link to="/" class="btn btn-success">Back</router-link>
+      <router-link
+        :to="{ name: 'lockerSetting' }"
+        class="btn btn-default pull-right"
         >Create new Locker</router-link
       >
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">Lockers list</div>
+      <div class="panel-heading text-left">Lockers list</div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
@@ -28,7 +31,7 @@
               <td>
                 <div class="row">
                   <router-link
-                    :to="{ name: 'editCompany', params: { id: company.id } }"
+                    :to="{ name: 'editLocker', params: { id: company.id } }"
                     class="btn btn-xs btn-default"
                   >
                     Edit

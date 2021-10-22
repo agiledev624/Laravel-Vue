@@ -11,7 +11,7 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">Apartment Page</div>
+      <div class="panel-heading">Locker Settings</div>
       <div class="panel-body">
         <form v-on:submit.prevent="saveForm()">
           <div class="row">
@@ -206,7 +206,7 @@ export default {
         .post("/api/v1/lockers/add", newLocker)
         .then(function (resp) {
           //app.$router.push({ path: "/" });
-          console.log('success');
+          console.log("success");
         })
         .catch(function (resp) {
           console.log(resp);

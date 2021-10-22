@@ -21,6 +21,10 @@
   color: #fff;
   background-color: transparent;
 }
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus {
+  background-color: transparent;
+  color: #fff;
+}
 .navbar-default .navbar-text {
   color: #777;
 }
@@ -90,7 +94,12 @@ html, body {
 .m-b-md {
   margin-bottom: 30px;
 }
+
 .custom-navbar {
   background: linear-gradient(45deg, #54d400 33%, #1b1e21 33%);
   box-shadow: 0 1px 3px rgb(0 0 0 / 25%), inset 0 -1px 0 rgb(0 0 0 / 10%);
+}
+
+th {
+  text-align: center;
 }

@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div class="text-left">
     <div class="form-group">
       <router-link to="/" class="btn btn-success">Back</router-link>
     </div>

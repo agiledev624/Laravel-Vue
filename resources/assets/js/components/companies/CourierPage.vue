@@ -14,7 +14,12 @@
               <label class="control-label"
                 >Apartment Number that your delivery is for</label
               >
-              <input type="text" v-model="company.owner" class="form-control" />
+              <input
+                type="text"
+                v-model="company.owner"
+                class="form-control"
+                placeholder="1234a"
+              />
             </div>
           </div>
           <div class="row">
@@ -94,15 +99,34 @@ export default {
     saveForm() {
       var app = this;
       var newCompany = app.company;
+
       axios
         .post("/api/v1/lockers/new_assign", newCompany)
-        .then(function (resp) {
+        .then((resp) => {
           console.log(resp);
-          alert(resp.data.message);
+          if (resp.data.result == 0) {
+            this.$toast.success({
+              title: "Success",
+              message: "Owner will get notified after lock.",
+              showMethod: "slideInRight",
+            });
+          } else {
+            this.$toast.warn({
+              title: "Warning",
+              message: "No available locker for the size",
+              showMethod: "slideInRight",
+            });
+          }
+          // alert(resp.data.message);
         })
-        .catch(function (resp) {
+        .catch((resp) => {
           console.log(resp);
-          alert("No available locker. Select another size.");
+          // alert("No available locker. Select another size.");
+          this.$toast.error({
+            title: "Error",
+            message: resp.data.message,
+            showMethod: "slideInRight",
+          });
         });
     },
   },

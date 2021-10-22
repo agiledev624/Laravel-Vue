@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div class="form-group">
-      <router-link :to="{ name: 'createCompany' }" class="btn btn-success"
-        >Create new Locker</router-link
+    <div class="form-group text-left">
+      <router-link to="/" class="btn btn-success">Back</router-link>
+      <router-link
+        :to="{ name: 'apartSetting' }"
+        class="btn btn-default pull-right"
+        >Create new Apartment</router-link
       >
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">Lockers list</div>
+      <div class="panel-heading text-left">Apartments list</div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
