@@ -107,6 +107,7 @@ class LockerController extends Controller
             // send rs232 to open the available locker
             // temporary set port as 1, get the result and check if succeed
 
+            try {
             // TODO reactivate this
             send_rs232(1, $firstLocker->code);
 
@@ -128,6 +129,11 @@ class LockerController extends Controller
             ];
 
             return response()->json($response, 200);
+            }
+            catch (Exception $e) {
+                return response()->json([
+                    'message' => $e->getMessage()], 500);
+            }
         } else {
             $response = [
                 'result' => '1',
