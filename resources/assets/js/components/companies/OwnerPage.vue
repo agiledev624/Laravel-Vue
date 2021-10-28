@@ -53,7 +53,7 @@
             sitekey="6Lek0vocAAAAAG-maX6TcvlIsBBkpTE_iWIo8-xc"
           ></vue-recaptcha>
           <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
-            <li v-for="error in errors">@{{ error[0] }}</li>
+            <li v-for="error in errors">{{ error[0] }}</li>
           </ul>
           <div class="row">
             <div class="col-xs-12 form-group text-right">
