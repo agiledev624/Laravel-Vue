@@ -22,6 +22,7 @@ import LockerSetting from './components/companies/LockerSetting.vue'
 import LockerList from './components/companies/LockerList.vue'
 import ApartList from './components/companies/ApartList.vue'
 import ApartmentSetting from './components/companies/ApartmentSetting.vue'
+import ApartmentEdit from './components/companies/ApartmentEdit.vue'
 
 const routes = [
   {
@@ -32,9 +33,19 @@ const routes = [
   },
   { path: '/courier', component: CourierPage, name: 'courierPage' },
   {
+    path: '/lockerlist',
+    component: LockerList,
+    name: 'lockerList',
+  },
+  {
     path: '/lockers/edit/:id',
     component: LockersEdit,
     name: 'editLocker',
+  },
+  {
+    path: '/lockersetting',
+    component: LockerSetting,
+    name: 'lockerSetting',
   },
   {
     path: '/owner',
@@ -47,19 +58,14 @@ const routes = [
     name: 'apartSetting',
   },
   {
-    path: '/lockersetting',
-    component: LockerSetting,
-    name: 'lockerSetting',
-  },
-  {
-    path: '/lockerlist',
-    component: LockerList,
-    name: 'lockerList',
-  },
-  {
     path: '/apartlist',
     component: ApartList,
     name: 'apartList',
+  },
+  {
+    path: '/aparts/edit/:id',
+    component: ApartmentEdit,
+    name: 'editApartment',
   },
 ]
 

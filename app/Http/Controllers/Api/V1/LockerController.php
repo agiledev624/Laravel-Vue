@@ -7,6 +7,7 @@ use App\Setting;
 use App\Apart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rules\Recaptcha;
 
 class LockerController extends Controller
 {
@@ -57,9 +58,10 @@ class LockerController extends Controller
      * @param  \App\Locker  $locker
      * @return \Illuminate\Http\Response
      */
-    public function show(Locker $locker)
+    public function show($id)
     {
         //
+        return Locker::findOrFail($id);
     }
 
     /**
@@ -80,9 +82,13 @@ class LockerController extends Controller
      * @param  \App\Locker  $locker
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Locker $locker)
+    public function update(Request $request, $id)
     {
         //
+        $company = Locker::findOrFail($id);
+        $company->update($request->all());
+
+        return $company;
     }
 
     /**
@@ -91,14 +97,23 @@ class LockerController extends Controller
      * @param  \App\Locker  $locker
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Locker $locker)
+    public function destroy($id)
     {
         //
+        $company = Locker::findOrFail($id);
+        $company->delete();
+        return '';
     }
 
-    public function new_assign(Request $request)
+    public function new_assign(Request $request,Recaptcha $recaptcha)
     {
+        $this->validate($request, [
+            'size' => 'required', 
+            'owner' => 'required',
+            'recaptcha' => ['required', $recaptcha],
+        ]);
         $input = $request->all();
+        return '';
         $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderBy('number')->get();
 
         if (!$locker->isEmpty()){
@@ -143,8 +158,15 @@ class LockerController extends Controller
         }
     }
 
-    public function open_lockers(Request $request)
+    public function open_lockers(Request $request, Recaptcha $recaptcha)
     {
+        $this->validate($request, [
+            'phone' => 'required',
+            'number' => 'required', 
+            'pin' => 'required',
+            'recaptcha' => ['required', $recaptcha],
+        ]);
+        return '';
         $input = $request->all();
         $locker = Apart::select('*')->where('number', $input['number'])->get();
         if (!$locker->isEmpty()){

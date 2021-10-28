@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="form-group text-left">
-      <router-link to="/" class="btn btn-success">Back</router-link>
+      <a @click="$router.go(-1)" class="btn btn-success">Back</a>
     </div>
 
     <div class="panel panel-default text-left">
@@ -69,10 +69,17 @@
               </div>
             </div>
           </div>
-
+          <vue-recaptcha
+            ref="recaptcha"
+            @verify="onVerify"
+            sitekey="6Lek0vocAAAAAG-maX6TcvlIsBBkpTE_iWIo8-xc"
+          ></vue-recaptcha>
+          <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
+            <li v-for="error in errors">@{{ error[0] }}</li>
+          </ul>
           <div class="row">
-            <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success">Open</button>
+            <div class="col-xs-12 form-group text-right p-t-10">
+              <button class="btn btn-success btn--margin">Open</button>
             </div>
           </div>
         </form>
@@ -82,16 +89,23 @@
 </template>
 
 <script>
+import VueRecaptcha from "vue-recaptcha";
 export default {
+  components: { VueRecaptcha },
   data: function () {
     return {
       company: {
         size: "0",
         owner: "",
+        recaptcha: "",
       },
+      errors: [],
     };
   },
   methods: {
+    onVerify(response) {
+      this.company.recaptcha = response;
+    },
     onChange(event) {
       var data = event.target.value;
       this.company.size = data;
@@ -104,6 +118,7 @@ export default {
         .post("/api/v1/lockers/new_assign", newCompany)
         .then((resp) => {
           console.log(resp);
+          this.$refs.recaptcha.reset();
           if (resp.data.result == 0) {
             this.$toast.success({
               title: "Success",
@@ -120,11 +135,14 @@ export default {
           // alert(resp.data.message);
         })
         .catch((resp) => {
-          console.log(resp);
+          console.log(resp.response);
           // alert("No available locker. Select another size.");
+          if (resp) {
+            this.errors = resp.response.data.errors;
+          }
           this.$toast.error({
             title: "Error",
-            message: resp.data.message,
+            message: resp.response.data.message,
             showMethod: "slideInRight",
           });
         });

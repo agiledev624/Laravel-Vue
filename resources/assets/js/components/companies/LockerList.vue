@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="form-group text-left">
-      <router-link to="/" class="btn btn-success">Back</router-link>
+      <router-link :to="{ name: 'lockerSetting' }" class="btn btn-success"
+        >Back</router-link
+      >
       <router-link
         :to="{ name: 'lockerSetting' }"
         class="btn btn-default pull-right"
@@ -15,19 +17,19 @@
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>COM Port</th>
               <th>Number</th>
               <th>Code</th>
               <th>Size</th>
+              <th>COM Port</th>
               <th width="100">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(company, index) in companies">
-              <td>{{ company.port }}</td>
               <td>{{ company.number }}</td>
               <td>{{ company.code }}</td>
               <td>{{ type(company.size) }}</td>
+              <td>{{ company.port }}</td>
               <td>
                 <div class="row">
                   <router-link
@@ -88,7 +90,7 @@ export default {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
         axios
-          .delete("/api/v1/companies/" + id)
+          .delete("/api/v1/lockers/" + id)
           .then(function (resp) {
             app.companies.splice(index, 1);
           })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="form-group text-left">
-      <router-link to="/" class="btn btn-success">Back</router-link>
+      <a @click="$router.go(-1)" class="btn btn-success">Back</a>
       <router-link
         :to="{ name: 'apartSetting' }"
         class="btn btn-default pull-right"
@@ -31,7 +31,7 @@
               <td>
                 <div class="row">
                   <router-link
-                    :to="{ name: 'editCompany', params: { id: company.id } }"
+                    :to="{ name: 'editApartment', params: { id: company.id } }"
                     class="btn btn-xs btn-default"
                   >
                     Edit
@@ -88,7 +88,7 @@ export default {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
         axios
-          .delete("/api/v1/companies/" + id)
+          .delete("/api/v1/aparts/" + id)
           .then(function (resp) {
             app.companies.splice(index, 1);
           })

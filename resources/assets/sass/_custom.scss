@@ -6,6 +6,10 @@
   background-color: transparent;
 }
 
+.navbar {
+  margin-bottom: 15px;
+}
+
 .navbar-brand {
   font-size: 20px;
 }
@@ -57,7 +61,8 @@ html, body {
 }
 
 .flex-center {
-  align-items: center;
+  // align-items: center;
+  padding: 10px;
   display: flex;
   justify-content: center;
 }
@@ -100,6 +105,20 @@ html, body {
   box-shadow: 0 1px 3px rgb(0 0 0 / 25%), inset 0 -1px 0 rgb(0 0 0 / 10%);
 }
 
+@media (max-width: 768px) {
+  .custom-navbar {
+    background: #1b1e21;
+  }
+}
+
 th {
   text-align: center;
+}
+
+.btn--margin {
+  margin-top: 10px;
+}
+
+.alert {
+  margin-bottom: 0 !important;
 }

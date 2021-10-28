@@ -41,6 +41,7 @@ class ApartController extends Controller
     public function show($id)
     {
         //
+        return Apart::findOrFail($id);
     }
 
     /**
@@ -53,6 +54,10 @@ class ApartController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $company = Apart::findOrFail($id);
+        $company->update($request->all());
+
+        return $company;
     }
 
     /**
@@ -64,5 +69,8 @@ class ApartController extends Controller
     public function destroy($id)
     {
         //
+        $company = Apart::findOrFail($id);
+        $company->delete();
+        return '';
     }
 }

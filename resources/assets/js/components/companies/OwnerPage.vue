@@ -2,7 +2,7 @@
 <template>
   <div class="text-left">
     <div class="form-group">
-      <router-link to="/" class="btn btn-success">Back</router-link>
+      <a @click="$router.go(-1)" class="btn btn-success">Back</a>
     </div>
 
     <div class="panel panel-default">
@@ -35,8 +35,29 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-xs-12 form-group">
+              <label class="control-label"
+                >Your phone number. Please type without space.</label
+              >
+              <input
+                type="text"
+                v-model="company.phone"
+                class="form-control"
+                placeholder="+61323423422"
+              />
+            </div>
+          </div>
+          <vue-recaptcha
+            ref="recaptcha"
+            @verify="onVerify"
+            sitekey="6Lek0vocAAAAAG-maX6TcvlIsBBkpTE_iWIo8-xc"
+          ></vue-recaptcha>
+          <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
+            <li v-for="error in errors">@{{ error[0] }}</li>
+          </ul>
+          <div class="row">
             <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success">Open</button>
+              <button class="btn btn-success btn--margin">Open</button>
             </div>
           </div>
         </form>
@@ -46,16 +67,24 @@
 </template>
 
 <script>
+import VueRecaptcha from "vue-recaptcha";
 export default {
+  components: { VueRecaptcha },
   data: function () {
     return {
       company: {
+        phone: "",
         number: "",
         pin: "",
+        recaptcha: "",
       },
+      errors: [],
     };
   },
   methods: {
+    onVerify(response) {
+      this.company.recaptcha = response;
+    },
     saveForm() {
       var app = this;
       var newCompany = app.company;
@@ -63,20 +92,27 @@ export default {
         .post("/api/v1/lockers/open_lockers", newCompany)
         .then((resp) => {
           console.log(resp.data);
+
           this.$toast.success({
             title: "Success",
             message: "Please check your lockers.",
             showMethod: "slideInRight",
           });
+          //TODO make the recaptcha logic more secure
+          this.$refs.recaptcha.reset();
+
           // alert(resp.data.message);
           // app.$router.push({ path: "/" });
         })
         .catch((resp) => {
           console.log(resp);
           // alert("Could not create your company");
+          if (resp) {
+            this.errors = resp.response.data.errors;
+          }
           this.$toast.error({
             title: "Error",
-            message: resp.data.message,
+            message: resp.response.data.message,
             showMethod: "slideInRight",
           });
         });

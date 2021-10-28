@@ -1,11 +1,12 @@
-## Laravel 5.6 + Vue.js - Simple CRUD Demo
+## Deliver System with Laravel + Vue
 
 Simple project showing how Laravel works with Vue.js.
 
 One CRUD operation to manage Companies - create/edit/update/delete.
 
-![Laravel + Vue.js](https://laraveldaily.com/wp-content/uploads/2018/11/laravel-vue.png)
+## Important for development stage
 
+- cacert.pem is needed to get curl cmd via recaptcha
 ---
 
 ### How to use
