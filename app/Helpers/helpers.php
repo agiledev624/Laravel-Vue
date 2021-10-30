@@ -7,9 +7,15 @@ require_once('Sms/Interface.php');
 require_once('Sms/Serial.php');
 require_once('Sms/Http.php');
 // require_once('Sms/gsm_send_sms.php');
+<<<<<<< Updated upstream
 // require_once('Sms/gsm_send_sms1.php');
 $pin = 1234;
 require_once('testHttp.php');
+=======
+
+// $pin = 1234;
+
+>>>>>>> Stashed changes
 
 if (!function_exists('send_rs232')) {
     function _str2hex($string) {
@@ -40,6 +46,7 @@ if (!function_exists('send_rs232')) {
     }
 
 }
+<<<<<<< Updated upstream
 
 if (!function_exists('send_sms')) {
     function send_sms($port, $number, $msg) {
@@ -83,6 +90,30 @@ try {
             break;
         default:
             echo $e->getMessage();
+=======
+// namespace Ozeki_PHP_Rest ;
+    require 'MessageApi/MessageApi.php';
+if (!function_exists('send_sms_via_gsm')) {
+    function send_sms_via_gsm($number, $text) {
+        
+		$configuration = new Ozeki_PHP_Rest\Configuration();
+		
+		$configuration -> Username = "mark";
+		$configuration -> Password = "mark";
+		$configuration -> ApiUrl = "http://localhost:9509/api";
+		
+		$msg = new Ozeki_PHP_Rest\Message();
+		
+		$msg -> ToAddress = $number;
+		$msg -> Text = $text;
+			
+		$api = new Ozeki_PHP_Rest\MessageApi($configuration);
+		
+		$result = $api -> SendSingle($msg);	
+		
+		// echo strval($result);
+        return $result;
+>>>>>>> Stashed changes
     }
 }
 

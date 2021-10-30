@@ -111,6 +111,13 @@ class LockerController extends Controller
             send_rs232(4, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
+<<<<<<< Updated upstream
+=======
+            // if (Apart::where('number', $input['owner'])->isEmpty()) {
+            //     return response()->json([
+            //         'message' => 'Apart number is invalid.'], 500);
+            // }
+>>>>>>> Stashed changes
             $apart = Apart::where('number', $input['owner'])->first();
             // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
             $phone = $apart->phone;
@@ -142,7 +149,7 @@ class LockerController extends Controller
                 $result = Locker::select('*')->where('owner', $input['number'])->get();
                 foreach($result as $r){
                     // TODO open the locker and update
-                    send_rs232(1, $r->code);
+                    send_rs232(4, $r->code);
                     // TODO check if it succeed,
                     $r->owner = '0';
                     $r->save();
