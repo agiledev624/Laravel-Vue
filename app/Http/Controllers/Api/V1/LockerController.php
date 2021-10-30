@@ -135,7 +135,7 @@ class LockerController extends Controller
             // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
             $phone = $apart->phone;
             // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
-            send_sms_via_gsm($phone, Setting::where('key', 'sms_msg')->first()->value);
+            send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value);
             $firstLocker->owner = $input['owner'];
             $firstLocker->save();
             $response = [
@@ -166,12 +166,13 @@ class LockerController extends Controller
             'pin' => 'required',
             'recaptcha' => ['required', $recaptcha],
         ]);
-        return '';
+        // return '';
         $input = $request->all();
         $locker = Apart::select('*')->where('number', $input['number'])->get();
         if (!$locker->isEmpty()){
             $firstLocker = $locker->first();
-            if ($firstLocker->pin == $input['pin']) {
+            if ($firstLocker->pin == $input['pin'] && 
+            remove_whitespace($firstLocker->phone) == remove_whitespace($input['phone'])) {
                 $result = Locker::select('*')->where('owner', $input['number'])->get();
                 foreach($result as $r){
                     // TODO open the locker and update
@@ -181,20 +182,27 @@ class LockerController extends Controller
                     $r->save();
                     // echo $r->email;
                 }
-                $response = [
-                    'result' => '0',
-                    'message' => 'succeed', 
-                ];
+                if ($result->isEmpty()) {
+                    $response = [
+                        'result' => '2',
+                        'message' => 'no parcles for this owner', 
+                    ];
+                } else {
+                    $response = [
+                        'result' => '0',
+                        'message' => 'succeed', 
+                    ];
+                }
             } else {
                 $response = [
                     'result' => '1',
-                    'message' => 'incorrect pin', 
+                    'message' => 'incorrect pin or number', 
                 ];
             }
         } else {
             $response = [
-                'result' => '2',
-                'message' => 'no available lockers for this owner', 
+                'result' => '3',
+                'message' => 'not available lockers for the input', 
             ];
         }
         return response()->json($response, 200);

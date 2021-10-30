@@ -91,15 +91,29 @@ export default {
       axios
         .post("/api/v1/lockers/open_lockers", newCompany)
         .then((resp) => {
-          console.log(resp.data);
-
-          this.$toast.success({
-            title: "Success",
-            message: "Please check your lockers.",
-            showMethod: "slideInRight",
-          });
           //TODO make the recaptcha logic more secure
           this.$refs.recaptcha.reset();
+
+          console.log(resp.data);
+          if (resp.data.result == 2) {
+            this.$toast.warn({
+              title: "Notification",
+              message: "No parcels arrived.",
+              showMethod: "slideInRight",
+            });
+          } else if (resp.data.result == 3) {
+            this.$toast.error({
+              title: "Error",
+              message: "Invalid input",
+              showMethod: "slideInRight",
+            });
+          } else {
+            this.$toast.success({
+              title: "Success",
+              message: "Please check your lockers.",
+              showMethod: "slideInRight",
+            });
+          }
 
           // alert(resp.data.message);
           // app.$router.push({ path: "/" });

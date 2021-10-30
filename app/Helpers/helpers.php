@@ -41,7 +41,7 @@ if (!function_exists('send_rs232')) {
 }
 
 if (!function_exists('send_sms_via_gsm')) {
-    function send_sms_via_gsm($number, $msg) {
+    function send_sms_via_gsm($number, $number, $msg) {
         
 		$configuration = new Configuration();
 		
@@ -52,7 +52,7 @@ if (!function_exists('send_sms_via_gsm')) {
 		$msg = new Message();
 		
 		$msg -> ToAddress = $number;
-		$msg -> Text = $msg;
+		$msg -> Text = 'Hello, '.$number.'\n'.$msg;
 			
 		$api = new MessageApi($configuration);
 		
@@ -63,6 +63,12 @@ if (!function_exists('send_sms_via_gsm')) {
     }
 }
 
+if (!function_exists('remove_whitespace')) {
+    function remove_whitespace($str) {
+        $res = str_replace(' ', '', $str);
+        return str_replace('+', '', $res);
+    }
+}
 // if (!function_exists('send_sms')) {
 //     function send_sms($port, $number, $msg) {
 //         try {
