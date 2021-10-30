@@ -43,18 +43,18 @@ if (!function_exists('send_rs232')) {
 if (!function_exists('send_sms_via_gsm')) {
     function send_sms_via_gsm($number, $number, $msg) {
         
-		$configuration = new Configuration();
+		$configuration = new Ozeki_PHP_Rest\Configuration();
 		
 		$configuration -> Username = "mark";
 		$configuration -> Password = "mark";
 		$configuration -> ApiUrl = "http://localhost:9509/api";
 		
-		$msg = new Message();
+		$msg = new Ozeki_PHP_Rest\Message();
 		
 		$msg -> ToAddress = $number;
 		$msg -> Text = 'Hello, '.$number.'\n'.$msg;
 			
-		$api = new MessageApi($configuration);
+		$api = new Ozeki_PHP_Rest\MessageApi($configuration);
 		
 		$result = $api -> SendSingle($msg);	
 		

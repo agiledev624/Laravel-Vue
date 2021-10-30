@@ -124,7 +124,7 @@ class LockerController extends Controller
 
             try {
             // TODO reactivate this
-            send_rs232(1, $firstLocker->code);
+            send_rs232($firstLocker->port, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
             if (Apart::where('number', $input['owner'])->isEmpty()) {
