@@ -107,6 +107,12 @@ export default {
               message: "Invalid input",
               showMethod: "slideInRight",
             });
+          } else if (resp.data.result == 1) {
+            this.$toast.error({
+              title: "Error",
+              message: "Incorrect pin or phone number",
+              showMethod: "slideInRight",
+            });
           } else {
             this.$toast.success({
               title: "Success",
