@@ -113,7 +113,7 @@ class LockerController extends Controller
             'recaptcha' => ['required', $recaptcha],
         ]);
         $input = $request->all();
-        return '';
+        // return '';
         $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderBy('number')->get();
 
         if (!$locker->isEmpty()){
