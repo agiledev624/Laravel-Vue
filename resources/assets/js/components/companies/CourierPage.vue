@@ -152,7 +152,7 @@ export default {
           this.$refs.recaptcha.reset();
           this.isLoading = false;
           // alert("No available locker. Select another size.");
-          if (resp) {
+          if (resp.response.data.errors) {
             this.errors = resp.response.data.errors;
           }
           this.$toast.error({

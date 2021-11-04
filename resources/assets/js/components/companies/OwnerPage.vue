@@ -146,7 +146,7 @@ export default {
           // setTimeout(() => (this.isLoading = false), 3000);
           this.isLoading = false;
 
-          if (resp) {
+          if (resp.response.data.errors) {
             this.errors = resp.response.data.errors;
           }
           this.$toast.error({
