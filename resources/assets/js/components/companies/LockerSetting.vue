@@ -193,6 +193,11 @@ export default {
         .post("/api/v1/settings/set_sms", newCompany)
         .then(function (resp) {
           // app.$router.push({ path: "/" });
+          this.$toast.success({
+            title: "Success",
+            message: "Information Updated",
+            showMethod: "slideInRight",
+          });
         })
         .catch(function (resp) {
           console.log(resp);
@@ -207,6 +212,11 @@ export default {
         .then(function (resp) {
           //app.$router.push({ path: "/" });
           console.log("success");
+          this.$toast.success({
+            title: "Success",
+            message: "Information Added",
+            showMethod: "slideInRight",
+          });
         })
         .catch(function (resp) {
           console.log(resp);

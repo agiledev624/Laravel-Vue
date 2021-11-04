@@ -72,14 +72,21 @@
           <vue-recaptcha
             ref="recaptcha"
             @verify="onVerify"
-            sitekey="6Lek0vocAAAAAG-maX6TcvlIsBBkpTE_iWIo8-xc"
+            :sitekey="siteKey"
           ></vue-recaptcha>
           <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
             <li v-for="error in errors">{{ error[0] }}</li>
           </ul>
           <div class="row">
             <div class="col-xs-12 form-group text-right p-t-10">
-              <button class="btn btn-success btn--margin">Open</button>
+              <VueLoadingButton
+                class="btn btn-success btn--margin"
+                aria-label="Open"
+                @click.native="saveForm"
+                :loading="isLoading"
+                :styled="false"
+                >Open</VueLoadingButton
+              >
             </div>
           </div>
         </form>
@@ -90,8 +97,9 @@
 
 <script>
 import VueRecaptcha from "vue-recaptcha";
+import VueLoadingButton from "vue-loading-button";
 export default {
-  components: { VueRecaptcha },
+  components: { VueRecaptcha, VueLoadingButton },
   data: function () {
     return {
       company: {
@@ -99,7 +107,9 @@ export default {
         owner: "",
         recaptcha: "",
       },
+      siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,
       errors: [],
+      isLoading: false,
     };
   },
   methods: {
@@ -113,18 +123,21 @@ export default {
     saveForm() {
       var app = this;
       var newCompany = app.company;
-
+      this.errors = [];
+      this.isLoading = true;
       axios
         .post("/api/v1/lockers/new_assign", newCompany)
         .then((resp) => {
           console.log(resp);
           this.$refs.recaptcha.reset();
+          this.isLoading = false;
           if (resp.data.result == 0) {
             this.$toast.success({
               title: "Success",
               message: "Owner will get notified after lock.",
               showMethod: "slideInRight",
             });
+            app.$router.push({ path: "/thanks" });
           } else {
             this.$toast.warn({
               title: "Warning",
@@ -136,6 +149,8 @@ export default {
         })
         .catch((resp) => {
           console.log(resp.response);
+          this.$refs.recaptcha.reset();
+          this.isLoading = false;
           // alert("No available locker. Select another size.");
           if (resp) {
             this.errors = resp.response.data.errors;

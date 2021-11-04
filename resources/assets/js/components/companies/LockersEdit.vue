@@ -129,6 +129,11 @@ export default {
         .patch("/api/v1/lockers/" + app.companyId, newCompany)
         .then(function (resp) {
           //app.$router.replace("/");
+          this.$toast.success({
+            title: "Success",
+            message: "Information Updated",
+            showMethod: "slideInRight",
+          });
           app.$router.go(-1);
         })
         .catch(function (resp) {

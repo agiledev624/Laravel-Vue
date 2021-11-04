@@ -41,7 +41,7 @@ if (!function_exists('send_rs232')) {
 }
 
 if (!function_exists('send_sms_via_gsm')) {
-    function send_sms_via_gsm($number, $number, $msg) {
+    function send_sms_via_gsm($number, $owner, $text) {
         
 		$configuration = new Ozeki_PHP_Rest\Configuration();
 		
@@ -52,7 +52,7 @@ if (!function_exists('send_sms_via_gsm')) {
 		$msg = new Ozeki_PHP_Rest\Message();
 		
 		$msg -> ToAddress = $number;
-		$msg -> Text = 'Hello, '.$number.'\n'.$msg;
+		$msg -> Text = 'Hello, '.$owner.'. '.$text;
 			
 		$api = new Ozeki_PHP_Rest\MessageApi($configuration);
 		

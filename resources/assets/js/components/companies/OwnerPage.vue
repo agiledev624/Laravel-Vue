@@ -50,14 +50,22 @@
           <vue-recaptcha
             ref="recaptcha"
             @verify="onVerify"
-            sitekey="6Lek0vocAAAAAG-maX6TcvlIsBBkpTE_iWIo8-xc"
+            :sitekey="siteKey"
           ></vue-recaptcha>
           <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
             <li v-for="error in errors">{{ error[0] }}</li>
           </ul>
           <div class="row">
             <div class="col-xs-12 form-group text-right">
-              <button class="btn btn-success btn--margin">Open</button>
+              <!-- <button class="btn btn-success btn--margin">Open</button> -->
+              <VueLoadingButton
+                class="btn btn-success btn--margin"
+                aria-label="Open"
+                @click.native="saveForm"
+                :loading="isLoading"
+                :styled="false"
+                >Open</VueLoadingButton
+              >
             </div>
           </div>
         </form>
@@ -68,8 +76,10 @@
 
 <script>
 import VueRecaptcha from "vue-recaptcha";
+import VueLoadingButton from "vue-loading-button";
+
 export default {
-  components: { VueRecaptcha },
+  components: { VueRecaptcha, VueLoadingButton },
   data: function () {
     return {
       company: {
@@ -79,6 +89,8 @@ export default {
         recaptcha: "",
       },
       errors: [],
+      siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,
+      isLoading: false,
     };
   },
   methods: {
@@ -88,11 +100,14 @@ export default {
     saveForm() {
       var app = this;
       var newCompany = app.company;
+      this.errors = [];
+      this.isLoading = true;
       axios
         .post("/api/v1/lockers/open_lockers", newCompany)
         .then((resp) => {
           //TODO make the recaptcha logic more secure
           this.$refs.recaptcha.reset();
+          this.isLoading = false;
 
           console.log(resp.data);
           if (resp.data.result == 2) {
@@ -127,6 +142,10 @@ export default {
         .catch((resp) => {
           console.log(resp);
           // alert("Could not create your company");
+          this.$refs.recaptcha.reset();
+          // setTimeout(() => (this.isLoading = false), 3000);
+          this.isLoading = false;
+
           if (resp) {
             this.errors = resp.response.data.errors;
           }

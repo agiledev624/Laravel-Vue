@@ -11,7 +11,7 @@ import VueRouter from 'vue-router'
 import CxltToastr from 'cxlt-vue2-toastr'
 
 window.Vue.use(VueRouter)
-window.Vue.use(CxltToastr, { position: 'top right' })
+window.Vue.use(CxltToastr, { position: 'bottom right' })
 
 import CompaniesIndex from './components/companies/CompaniesIndex.vue'
 import CourierPage from './components/companies/CourierPage.vue'
@@ -23,6 +23,7 @@ import LockerList from './components/companies/LockerList.vue'
 import ApartList from './components/companies/ApartList.vue'
 import ApartmentSetting from './components/companies/ApartmentSetting.vue'
 import ApartmentEdit from './components/companies/ApartmentEdit.vue'
+import ThanksPage from './components/companies/ThanksPage.vue'
 
 const routes = [
   {
@@ -32,6 +33,7 @@ const routes = [
     },
   },
   { path: '/courier', component: CourierPage, name: 'courierPage' },
+  { path: '/thanks', component: ThanksPage, name: 'thanksPage' },
   {
     path: '/lockerlist',
     component: LockerList,

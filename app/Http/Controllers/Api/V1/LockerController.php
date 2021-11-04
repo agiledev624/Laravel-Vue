@@ -127,7 +127,7 @@ class LockerController extends Controller
             send_rs232($firstLocker->port, $firstLocker->code);
 
             // TODO if succeed, notify the owner by sms
-            if (Apart::where('number', $input['owner'])->isEmpty()) {
+            if (Apart::where('number', $input['owner'])->get()->isEmpty()) {
                 return response()->json([
                     'message' => 'Apart number is invalid.'], 500);
             }
@@ -176,7 +176,7 @@ class LockerController extends Controller
                 $result = Locker::select('*')->where('owner', $input['number'])->get();
                 foreach($result as $r){
                     // TODO open the locker and update
-                    send_rs232(1, $r->code);
+                    send_rs232($r->port, $r->code);
                     // TODO check if it succeed,
                     $r->owner = '0';
                     $r->save();
