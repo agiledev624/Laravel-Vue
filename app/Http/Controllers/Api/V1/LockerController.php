@@ -112,11 +112,18 @@ class LockerController extends Controller
 
             // TODO if succeed, notify the owner by sms
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
             // if (Apart::where('number', $input['owner'])->isEmpty()) {
             //     return response()->json([
             //         'message' => 'Apart number is invalid.'], 500);
             // }
+>>>>>>> Stashed changes
+=======
+            if (Apart::where('number', $input['owner'])->get()->isEmpty()) {
+                return response()->json([
+                    'message' => 'Apart number is invalid.'], 500);
+            }
 >>>>>>> Stashed changes
             $apart = Apart::where('number', $input['owner'])->first();
             // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
@@ -149,7 +156,11 @@ class LockerController extends Controller
                 $result = Locker::select('*')->where('owner', $input['number'])->get();
                 foreach($result as $r){
                     // TODO open the locker and update
+<<<<<<< Updated upstream
                     send_rs232(4, $r->code);
+=======
+                    send_rs232($r->port, $r->code);
+>>>>>>> Stashed changes
                     // TODO check if it succeed,
                     $r->owner = '0';
                     $r->save();

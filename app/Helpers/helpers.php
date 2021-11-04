@@ -94,6 +94,7 @@ try {
 // namespace Ozeki_PHP_Rest ;
     require 'MessageApi/MessageApi.php';
 if (!function_exists('send_sms_via_gsm')) {
+<<<<<<< Updated upstream
     function send_sms_via_gsm($number, $text) {
         
 		$configuration = new Ozeki_PHP_Rest\Configuration();
@@ -105,6 +106,7 @@ if (!function_exists('send_sms_via_gsm')) {
 		$msg = new Ozeki_PHP_Rest\Message();
 		
 		$msg -> ToAddress = $number;
+<<<<<<< Updated upstream
 		$msg -> Text = $text;
 			
 		$api = new Ozeki_PHP_Rest\MessageApi($configuration);

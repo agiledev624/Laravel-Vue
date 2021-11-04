@@ -64,7 +64,18 @@
               </div>
             </div>
           </div>
+<<<<<<< Updated upstream:resources/assets/js/components/companies/CompaniesCreate.vue
 
+=======
+          <vue-recaptcha
+            ref="recaptcha"
+            @verify="onVerify"
+            sitekey="6LeWzwEdAAAAALpTQ7-83nQRNXwTHR6K0k6KOWUS"
+          ></vue-recaptcha>
+          <ul class="alert alert-danger btn--margin" v-if="errors.length != 0">
+            <li v-for="error in errors">{{ error[0] }}</li>
+          </ul>
+>>>>>>> Stashed changes:resources/assets/js/components/companies/CourierPage.vue
           <div class="row">
             <div class="col-xs-12 form-group text-right">
               <button class="btn btn-success">Open</button>
