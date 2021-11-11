@@ -32,7 +32,7 @@ const routes = [
       firstScreen: FirstScreen,
     },
   },
-  { path: '/courier', component: CourierPage, name: 'courierPage' },
+  { path: '/courier/:id', component: CourierPage, name: 'courierPage' },
   { path: '/thanks', component: ThanksPage, name: 'thanksPage' },
   {
     path: '/lockerlist',
@@ -50,7 +50,7 @@ const routes = [
     name: 'lockerSetting',
   },
   {
-    path: '/owner',
+    path: '/owner/:id',
     component: OwnerPage,
     name: 'ownerPage',
   },

@@ -60,7 +60,7 @@ export default {
         app.company = resp.data;
       })
       .catch(function () {
-        alert("Could not load your company");
+        //alert("Could not load your company");
       });
   },
   data: function () {
@@ -91,7 +91,7 @@ export default {
         })
         .catch(function (resp) {
           console.log(resp);
-          alert("Could not create your company");
+          //alert("Could not create your company");
         });
     },
   },

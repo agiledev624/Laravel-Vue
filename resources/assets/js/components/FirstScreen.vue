@@ -2,6 +2,7 @@
 <template>
   <div>
     <div class="form-group">
+      <p>{{ user }}</p>
       <router-link
         :to="{ name: 'courierPage' }"
         class="btn btn-warning text-large"
@@ -18,6 +19,7 @@
 
 <script>
 export default {
+  props: ["user"],
   mounted() {
     // let app = this;
     // let id = app.$route.params.id;
@@ -53,7 +55,7 @@ export default {
         })
         .catch(function (resp) {
           console.log(resp);
-          alert("Could not create your company");
+          //alert("Could not create your company");
         });
     },
   },

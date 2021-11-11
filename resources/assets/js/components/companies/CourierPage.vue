@@ -1,10 +1,13 @@
 
 <template>
   <div>
-    <div class="form-group text-left">
+    <!-- <div class="form-group text-left">
       <a @click="$router.go(-1)" class="btn btn-success">Back</a>
-    </div>
-
+    </div> -->
+    <!-- 
+      // TODO get unique id for the department and include this to the request
+      // TODO save the courier number to the database for the identify?
+      <p>{{ $route.params.id }}</p> -->
     <div class="panel panel-default text-left">
       <div class="panel-heading">Couriers Page</div>
       <div class="panel-body">
@@ -106,6 +109,7 @@ export default {
         size: "0",
         owner: "",
         recaptcha: "",
+        unique: this.$route.params.id,
       },
       siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,
       errors: [],

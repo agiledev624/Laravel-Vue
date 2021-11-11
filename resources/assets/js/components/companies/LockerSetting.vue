@@ -178,7 +178,7 @@ export default {
         app.sms.msg = resp.data.msg;
       })
       .catch(function () {
-        alert("Could not load your company");
+        //alert("Could not load your company");
       });
   },
   methods: {
@@ -201,7 +201,7 @@ export default {
         })
         .catch(function (resp) {
           console.log(resp);
-          alert("Could not create your company");
+          //alert("Could not create your company");
         });
     },
     addLocker() {
@@ -220,7 +220,7 @@ export default {
         })
         .catch(function (resp) {
           console.log(resp);
-          alert("Could not add locker");
+          //alert("Could not add locker");
         });
     },
   },

@@ -1,9 +1,9 @@
 
 <template>
   <div class="text-left">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <a @click="$router.go(-1)" class="btn btn-success">Back</a>
-    </div>
+    </div> -->
 
     <div class="panel panel-default">
       <div class="panel-heading">Apartment Page</div>
@@ -23,8 +23,8 @@
           <div class="row">
             <div class="col-xs-12 form-group">
               <label class="control-label"
-                >Enter 4 digit Pin. Contct building manager if you do not have a
-                pin code set up</label
+                >Enter 4 digit Pin. Contact building manager if you do not have
+                a pin code set up</label
               >
               <input
                 type="text"
@@ -87,6 +87,7 @@ export default {
         number: "",
         pin: "",
         recaptcha: "",
+        unique: this.$route.params.id,
       },
       errors: [],
       siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Locker;
 use App\Setting;
 use App\Apart;
+use App\Depart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Rules\Recaptcha;
@@ -30,7 +31,7 @@ class LockerController extends Controller
     public function create()
     {
         //
-        
+
     }
 
     /**
@@ -105,54 +106,63 @@ class LockerController extends Controller
         return '';
     }
 
-    public function new_assign(Request $request,Recaptcha $recaptcha)
+    public function new_assign(Request $request, Recaptcha $recaptcha)
     {
         $this->validate($request, [
-            'size' => 'required', 
+            'size' => 'required',
             'owner' => 'required',
             'recaptcha' => ['required', $recaptcha],
+            'unique' => 'required',
         ]);
         $input = $request->all();
+        $depart = Depart::select('*')->where('courier', $input['unique'])->orderBy('number')->get();
+        if (!$depart->isEmpty()) {
+            return response()->json([
+                'message' => 'Invaid request to the server. (Illegal Url)'
+            ], 500);
+        }
+        $url = url('') . '/#/owner/' . $depart->first()->owner;
         // return '';
         $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderBy('number')->get();
 
-        if (!$locker->isEmpty()){
+        if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
-            
+
             // send rs232 to open the available locker
             // temporary set port as 1, get the result and check if succeed
 
             try {
-            // TODO reactivate this
-            send_rs232($firstLocker->port, $firstLocker->code);
+                // TODO reactivate this
+                send_rs232($firstLocker->port, $firstLocker->code);
 
-            // TODO if succeed, notify the owner by sms
-            if (Apart::where('number', $input['owner'])->get()->isEmpty()) {
-                return response()->json([
-                    'message' => 'Apart number is invalid.'], 500);
-            }
-            $apart = Apart::where('number', $input['owner'])->first();
-            // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
-            $phone = $apart->phone;
-            // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
-            send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value);
-            $firstLocker->owner = $input['owner'];
-            $firstLocker->save();
-            $response = [
-                'result' => '0',
-                'message' => 'ok', 
-            ];
+                // TODO if succeed, notify the owner by sms
+                if (Apart::where('number', $input['owner'])->get()->isEmpty()) {
+                    return response()->json([
+                        'message' => 'Apart number is invalid.'
+                    ], 500);
+                }
+                $apart = Apart::where('number', $input['owner'])->first();
+                // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
+                $phone = $apart->phone;
+                // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
+                send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
+                $firstLocker->owner = $input['owner'];
+                $firstLocker->save();
+                $response = [
+                    'result' => '0',
+                    'message' => 'ok',
+                ];
 
-            return response()->json($response, 200);
-            }
-            catch (Exception $e) {
+                return response()->json($response, 200);
+            } catch (Exception $e) {
                 return response()->json([
-                    'message' => $e->getMessage()], 500);
+                    'message' => $e->getMessage()
+                ], 500);
             }
         } else {
             $response = [
                 'result' => '1',
-                'message' => 'not available', 
+                'message' => 'not available',
             ];
             return response()->json($response, 200);
         }
@@ -162,19 +172,27 @@ class LockerController extends Controller
     {
         $this->validate($request, [
             'phone' => 'required',
-            'number' => 'required', 
+            'number' => 'required',
             'pin' => 'required',
             'recaptcha' => ['required', $recaptcha],
         ]);
         // return '';
         $input = $request->all();
+        $depart = Depart::select('*')->where('owner', $input['unique'])->orderBy('number')->get();
+        if (!$depart->isEmpty()) {
+            return response()->json([
+                'message' => 'Invaid request to the server. (Illegal Url)'
+            ], 500);
+        }
         $locker = Apart::select('*')->where('number', $input['number'])->get();
-        if (!$locker->isEmpty()){
+        if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
-            if ($firstLocker->pin == $input['pin'] && 
-            remove_whitespace($firstLocker->phone) == remove_whitespace($input['phone'])) {
+            if (
+                $firstLocker->pin == $input['pin'] &&
+                remove_whitespace($firstLocker->phone) == remove_whitespace($input['phone'])
+            ) {
                 $result = Locker::select('*')->where('owner', $input['number'])->get();
-                foreach($result as $r){
+                foreach ($result as $r) {
                     // TODO open the locker and update
                     send_rs232($r->port, $r->code);
                     // TODO check if it succeed,
@@ -185,24 +203,24 @@ class LockerController extends Controller
                 if ($result->isEmpty()) {
                     $response = [
                         'result' => '2',
-                        'message' => 'no parcles for this owner', 
+                        'message' => 'no parcles for this owner',
                     ];
                 } else {
                     $response = [
                         'result' => '0',
-                        'message' => 'succeed', 
+                        'message' => 'succeed',
                     ];
                 }
             } else {
                 $response = [
                     'result' => '1',
-                    'message' => 'incorrect pin or number', 
+                    'message' => 'incorrect pin or number',
                 ];
             }
         } else {
             $response = [
                 'result' => '3',
-                'message' => 'not available lockers for the input', 
+                'message' => 'not available lockers for the input',
             ];
         }
         return response()->json($response, 200);

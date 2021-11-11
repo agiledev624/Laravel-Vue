@@ -69,7 +69,7 @@ export default {
       })
       .catch(function (resp) {
         console.log(resp);
-        alert("Could not load companies");
+        //alert("Could not load companies");
       });
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
             app.companies.splice(index, 1);
           })
           .catch(function (resp) {
-            alert("Could not delete company");
+            //alert("Could not delete company");
           });
       }
     },

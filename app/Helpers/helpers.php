@@ -11,18 +11,20 @@ require 'MessageApi/MessageApi.php';
 
 
 if (!function_exists('send_rs232')) {
-    function _str2hex($string) {
+    function _str2hex($string)
+    {
         $string = str_replace(' ', '', $string);
         $str = '';
         for ($i = 0; $i < strlen($string); $i += 2) {
-           $str .= chr(hexdec(substr($string, $i, 2)));
+            $str .= chr(hexdec(substr($string, $i, 2)));
         }
         return $str;
-     }
+    }
 
-    function send_rs232($port, $hex_cmd) {
+    function send_rs232($port, $hex_cmd)
+    {
         $serial = new PhpSerial;
-        $serial->deviceSet("COM".$port);
+        $serial->deviceSet("COM" . $port);
         $serial->confBaudRate(9600);
         $serial->confParity("none");
         $serial->confCharacterLength(8);
@@ -37,34 +39,35 @@ if (!function_exists('send_rs232')) {
         return false;
         // echo "Read Data:".$read;
     }
-
 }
 
 if (!function_exists('send_sms_via_gsm')) {
-    function send_sms_via_gsm($number, $owner, $text) {
-        
-		$configuration = new Ozeki_PHP_Rest\Configuration();
-		
-		$configuration -> Username = "mark";
-		$configuration -> Password = "mark";
-		$configuration -> ApiUrl = "http://localhost:9509/api";
-		
-		$msg = new Ozeki_PHP_Rest\Message();
-		
-		$msg -> ToAddress = $number;
-		$msg -> Text = 'Hello, '.$owner.'. '.$text;
-			
-		$api = new Ozeki_PHP_Rest\MessageApi($configuration);
-		
-		$result = $api -> SendSingle($msg);	
-		
-		// echo strval($result);
+    function send_sms_via_gsm($number, $owner, $text, $url)
+    {
+
+        $configuration = new Ozeki_PHP_Rest\Configuration();
+
+        $configuration->Username = "mark";
+        $configuration->Password = "mark";
+        $configuration->ApiUrl = "http://localhost:9509/api";
+
+        $msg = new Ozeki_PHP_Rest\Message();
+
+        $msg->ToAddress = $number;
+        $msg->Text = 'Hello, ' . $owner . '. ' . $text . 'Please visit this link. ' . $url;
+
+        $api = new Ozeki_PHP_Rest\MessageApi($configuration);
+
+        $result = $api->SendSingle($msg);
+
+        // echo strval($result);
         return $result;
     }
 }
 
 if (!function_exists('remove_whitespace')) {
-    function remove_whitespace($str) {
+    function remove_whitespace($str)
+    {
         $res = str_replace(' ', '', $str);
         return str_replace('+', '', $res);
     }
