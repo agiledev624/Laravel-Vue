@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="form-group text-left">
-      <router-link to="/" class="btn btn-success">Home</router-link>
+      <!-- <router-link to="/" class="btn btn-success">Home</router-link> -->
       <a @click="$router.go(-1)" class="btn btn-success pull-right">New</a>
       <!-- <router-link
         :to="{ name: 'apartList' }"

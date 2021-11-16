@@ -116,7 +116,7 @@ class LockerController extends Controller
         ]);
         $input = $request->all();
         $depart = Depart::select('*')->where('courier', $input['unique'])->orderBy('number')->get();
-        if (!$depart->isEmpty()) {
+        if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
@@ -179,7 +179,7 @@ class LockerController extends Controller
         // return '';
         $input = $request->all();
         $depart = Depart::select('*')->where('owner', $input['unique'])->orderBy('number')->get();
-        if (!$depart->isEmpty()) {
+        if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
