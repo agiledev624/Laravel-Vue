@@ -9,7 +9,12 @@
       // TODO save the courier number to the database for the identify?
       <p>{{ $route.params.id }}</p> -->
     <div class="panel panel-default text-left">
-      <div class="panel-heading">Couriers Page</div>
+      <div class="panel-heading">
+        <span>Couriers Page</span>
+        <span class="pull-right"
+          ><strong> Address : {{ address }} </strong></span
+        >
+      </div>
       <div class="panel-body">
         <form v-on:submit.prevent="saveForm()">
           <div class="row">
@@ -114,7 +119,20 @@ export default {
       siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,
       errors: [],
       isLoading: false,
+      address: "",
     };
+  },
+  mounted() {
+    var app = this;
+    axios
+      .get(`/api/v1/lockers/check_courier/${this.$route.params.id}`)
+      .then(function (resp) {
+        app.address = resp.data.address;
+      })
+      .catch(function (resp) {
+        console.log(resp);
+        //alert("Could not load companies");
+      });
   },
   methods: {
     onVerify(response) {

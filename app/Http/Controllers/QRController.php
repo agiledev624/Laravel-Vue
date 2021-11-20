@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class QRController extends Controller
 {
     //
-    public function generateQrCode()
+    public function generateQrCode(Request $request, $id)
     {
         // \QrCode::size(500)
         //         ->format('png')
         //         ->generate('codingdriver.com', public_path('images/qrcode.png'));
+
         $user = \Auth::user();
-        $url = url('') . '/#/courier/' . 'a238bxce89349cdd3';
-        return view('qr-code', ['unique' => $url]);
+
+        if ($user->role == 'admin' || ($user->role == 'manager' && $user->id == $id)) {
+            $searchUser = User::select('*')->where('id', $id)->get();
+            if ($searchUser->isEmpty())
+                return abort(404);
+            // $url = url('') . '/#/courier/' . 'a238bxce89349cdd3';
+            $url = url('') . '/#/courier/' . $searchUser->first()->courier;
+
+            return view('qr-code', ['unique' => $url]);
+        }
+        // redirect('/');
+        return abort(404);
     }
 
     public function downloadQRCode(Request $request, $type)

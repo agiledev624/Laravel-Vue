@@ -67,9 +67,13 @@
                         <!-- <li><a href="{{ route('login') }}">Login</a></li> -->
                         <!-- <li><a href="{{ route('register') }}">Register</a></li> -->
                         @else
-                        <li><a href="{{ route('admin.qrcode.index', ['id'=>Auth::user()->id]) }}">QR Code</a></li>
+                        
+
                         <li>
-                            <router-link :to="{ name: 'lockerList' }">Locker</router-link>
+                            <router-link :to="{ name: 'userList' }">Users</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{ name: 'lockerSetting' }">Locker</router-link>
                         </li>
                         <li>
                             <router-link :to="{ name: 'apartSetting' }">Apartment</router-link>
@@ -145,7 +149,7 @@
     </script>
     <!-- <script src="{{ mix('js/app.js') }}">
                     </script> -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 
 </html>

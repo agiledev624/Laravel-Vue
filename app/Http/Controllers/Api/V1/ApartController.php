@@ -15,7 +15,8 @@ class ApartController extends Controller
      */
     public function index()
     {
-        //
+        // TODO foreign key related rows
+        // return Apart::with('user')->getall();
         return Apart::all();
     }
 

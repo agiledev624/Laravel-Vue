@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <div class="form-group text-left">
+    <div class="form-group text-left">
       <router-link :to="{ name: 'lockerSetting' }" class="btn btn-success"
         >Back</router-link
       >
@@ -9,13 +9,10 @@
         class="btn btn-default pull-right"
         >Create new Locker</router-link
       >
-    </div> -->
+    </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading text-left">
-        <span>Lockers list</span>
-        <span class="pull-right">Address</span>
-      </div>
+      <div class="panel-heading text-left">Lockers list</div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
@@ -24,7 +21,7 @@
               <th>Code</th>
               <th>Size</th>
               <th>COM Port</th>
-              <!-- <th width="100">&nbsp;</th> -->
+              <th width="100">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +30,7 @@
               <td>{{ company.code }}</td>
               <td>{{ type(company.size) }}</td>
               <td>{{ company.port }}</td>
-              <!-- <td>
+              <td>
                 <div class="row">
                   <router-link
                     :to="{ name: 'editLocker', params: { id: company.id } }"
@@ -49,7 +46,7 @@
                     Delete
                   </a>
                 </div>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>

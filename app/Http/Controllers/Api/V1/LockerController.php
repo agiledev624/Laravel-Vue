@@ -6,6 +6,7 @@ use App\Locker;
 use App\Setting;
 use App\Apart;
 use App\Depart;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Rules\Recaptcha;
@@ -106,6 +107,16 @@ class LockerController extends Controller
         return '';
     }
 
+    public function check_courier($courier)
+    {
+        return User::where('courier', $courier)->firstOrFail(['address']);
+    }
+
+    public function check_owner($owner)
+    {
+        return User::where('owner', $owner)->firstOrFail(['address']);
+    }
+
     public function new_assign(Request $request, Recaptcha $recaptcha)
     {
         $this->validate($request, [
@@ -116,7 +127,7 @@ class LockerController extends Controller
         ]);
         $input = $request->all();
         $depart = Depart::select('*')->where('courier', $input['unique'])->orderBy('number')->get();
-        if (!$depart->isEmpty()) {
+        if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
@@ -179,7 +190,7 @@ class LockerController extends Controller
         // return '';
         $input = $request->all();
         $depart = Depart::select('*')->where('owner', $input['unique'])->orderBy('number')->get();
-        if (!$depart->isEmpty()) {
+        if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);

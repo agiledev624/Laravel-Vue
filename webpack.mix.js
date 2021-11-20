@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+let mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,11 +11,15 @@ let mix = require('laravel-mix');
  |
  */
 mix.options({
-   autoprefixer: {remove: false},
-//    hmrOptions: {
-//       host: 'localhost',  // mysite.test is my local domain used for testing
-//       port: 8080,
-//   }
-});
-mix.js('resources/assets/js/app.js', 'public/js').vue({extractStyles: true, globalStyles: false})
-   .sass('resources/assets/sass/app.scss', 'public/css');
+  autoprefixer: { remove: false },
+  //    hmrOptions: {
+  //       host: 'localhost',  // mysite.test is my local domain used for testing
+  //       port: 8080,
+  //   }
+})
+
+mix
+  .js('resources/assets/js/app.js', 'public/js')
+  .js('resources/assets/js/admin.js', 'public/js')
+  .vue({ extractStyles: true, globalStyles: false })
+  .sass('resources/assets/sass/app.scss', 'public/css')

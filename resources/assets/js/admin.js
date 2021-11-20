@@ -15,15 +15,16 @@ window.Vue.use(CxltToastr, { position: 'bottom right' })
 
 import CompaniesIndex from './components/companies/CompaniesIndex.vue'
 import CourierPage from './components/companies/CourierPage.vue'
-import LockersEdit from './components/companies/LockersEdit.vue'
+import LockersEdit from './components/admin/LockersEdit.vue'
 import FirstScreen from './components/FirstScreen.vue'
 import OwnerPage from './components/companies/OwnerPage.vue'
-import LockerSetting from './components/companies/LockerSetting.vue'
-import LockerList from './components/companies/LockerList.vue'
-import ApartList from './components/companies/ApartList.vue'
-import ApartmentSetting from './components/companies/ApartmentSetting.vue'
-import ApartmentEdit from './components/companies/ApartmentEdit.vue'
+import LockerSetting from './components/admin/LockerSetting.vue'
+import LockerList from './components/admin/LockerList.vue'
+import ApartList from './components/admin/ApartList.vue'
+import ApartmentSetting from './components/admin/ApartmentSetting.vue'
+import ApartmentEdit from './components/admin/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
+import UserList from './components/admin/UserList.vue'
 
 const routes = [
   {
@@ -39,16 +40,16 @@ const routes = [
     component: LockerList,
     name: 'lockerList',
   },
-  // {
-  //   path: '/lockers/edit/:id',
-  //   component: LockersEdit,
-  //   name: 'editLocker',
-  // },
-  // {
-  //   path: '/lockersetting',
-  //   component: LockerSetting,
-  //   name: 'lockerSetting',
-  // },
+  {
+    path: '/lockers/edit/:id',
+    component: LockersEdit,
+    name: 'editLocker',
+  },
+  {
+    path: '/lockersetting',
+    component: LockerSetting,
+    name: 'lockerSetting',
+  },
   {
     path: '/owner/:id',
     component: OwnerPage,
@@ -68,6 +69,11 @@ const routes = [
     path: '/aparts/edit/:id',
     component: ApartmentEdit,
     name: 'editApartment',
+  },
+  {
+    path: '/userlist',
+    component: UserList,
+    name: 'userList',
   },
 ]
 

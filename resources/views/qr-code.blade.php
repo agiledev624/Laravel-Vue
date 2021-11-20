@@ -66,7 +66,7 @@
 						<li><a href="{{ route('login') }}">Login</a></li>
 						<li><a href="{{ route('register') }}">Register</a></li>
 						@else
-						<li><a href="{{ route('admin.qrcode.index') }}">QR Code</a></li>
+						<li><a href="{{ route('admin.qrcode.index', Auth::user()->id) }}">QR Code</a></li>
 
 						<li>
 							<a href="{{ route('admin.index') }}">Home</a>
@@ -123,7 +123,7 @@
 
 					<div id="qrcode-container">
 						<span id="qrcode-url">{{$unique}}</span>
-						<button id="qrcode-copy" data-clipboard-text="{{$unique}}"> <img style="width: 15px;" src="img/clippy.svg" alt="Copy to clipboard"></button>
+						<button id="qrcode-copy" data-clipboard-text="{{$unique}}"> <img style="width: 15px;" src="/img/clippy.svg" alt="Copy to clipboard"></button>
 					</div>
 					<!-- //TODO FIX THE DEPART NUMBER
 				-->

@@ -1,42 +1,39 @@
 <template>
   <div>
-    <!-- <div class="form-group text-left">
-      <router-link :to="{ name: 'lockerSetting' }" class="btn btn-success"
-        >Back</router-link
-      >
+    <div class="form-group text-left">
+      <a @click="$router.go(-1)" class="btn btn-success">Back</a>
       <router-link
-        :to="{ name: 'lockerSetting' }"
+        :to="{ name: 'apartSetting' }"
         class="btn btn-default pull-right"
-        >Create new Locker</router-link
+        >Create new Apartment</router-link
       >
-    </div> -->
+    </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading text-left">
-        <span>Lockers list</span>
-        <span class="pull-right">Address</span>
-      </div>
+      <div class="panel-heading text-left">Apartments list</div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
+              <th>No</th>
+              <th>User ID</th>
               <th>Number</th>
-              <th>Code</th>
-              <th>Size</th>
-              <th>COM Port</th>
-              <!-- <th width="100">&nbsp;</th> -->
+              <th>Phone</th>
+              <th>PIN</th>
+              <th width="100">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(company, index) in companies">
+              <td>{{ index + 1 }}</td>
+              <td>{{ company.user_id }}</td>
               <td>{{ company.number }}</td>
-              <td>{{ company.code }}</td>
-              <td>{{ type(company.size) }}</td>
-              <td>{{ company.port }}</td>
-              <!-- <td>
+              <td>{{ company.phone }}</td>
+              <td>{{ company.pin }}</td>
+              <td>
                 <div class="row">
                   <router-link
-                    :to="{ name: 'editLocker', params: { id: company.id } }"
+                    :to="{ name: 'editApartment', params: { id: company.id } }"
                     class="btn btn-xs btn-default"
                   >
                     Edit
@@ -49,7 +46,7 @@
                     Delete
                   </a>
                 </div>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -68,7 +65,7 @@ export default {
   mounted() {
     var app = this;
     axios
-      .get("/api/v1/lockers")
+      .get("/api/v1/aparts")
       .then(function (resp) {
         app.companies = resp.data;
       })
@@ -93,7 +90,7 @@ export default {
       if (confirm("Do you really want to delete it?")) {
         var app = this;
         axios
-          .delete("/api/v1/lockers/" + id)
+          .delete("/api/v1/aparts/" + id)
           .then(function (resp) {
             app.companies.splice(index, 1);
           })
