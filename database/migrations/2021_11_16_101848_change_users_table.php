@@ -16,6 +16,7 @@ class ChangeUsersTable extends Migration
         //
         Schema::table('users', function (Blueprint $table) {
             //
+            $table->string('role')->after('name');
             $table->string('courier')->after('role');
             $table->string('owner')->after('courier');
             $table->string('port')->after('owner');
