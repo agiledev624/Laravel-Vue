@@ -65,6 +65,7 @@ export default {
         number: "",
         pin: "",
         phone: "",
+        user_id: this.$userId,
       },
     };
   },

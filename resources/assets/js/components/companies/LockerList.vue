@@ -14,7 +14,6 @@
     <div class="panel panel-default">
       <div class="panel-heading text-left">
         <span>Lockers list</span>
-        <span class="pull-right">Address</span>
       </div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
@@ -66,9 +65,10 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$userId);
     var app = this;
     axios
-      .get("/api/v1/lockers")
+      .get("/api/v1/lockers/list/" + this.$userPort)
       .then(function (resp) {
         app.companies = resp.data;
       })

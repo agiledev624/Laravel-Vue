@@ -100,7 +100,7 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="role" id="exampleRadios2" value="mananger">
+                                    <input class="form-check-input" type="radio" name="role" id="exampleRadios2" value="manager">
                                     <label class="form-check-label" for="exampleRadios2">
                                         Building Manager
                                     </label>

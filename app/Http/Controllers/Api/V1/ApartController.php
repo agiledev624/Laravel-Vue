@@ -45,6 +45,10 @@ class ApartController extends Controller
         return Apart::findOrFail($id);
     }
 
+    public function list($id)
+    {
+        return Apart::select('*')->where('user_id', $id)->get();
+    }
     /**
      * Update the specified resource in storage.
      *

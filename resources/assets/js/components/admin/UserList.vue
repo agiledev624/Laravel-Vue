@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="form-group text-left">
+    <!-- <div class="form-group text-left">
       <a @click="$router.go(-1)" class="btn btn-success">Back</a>
       <router-link
         :to="{ name: 'apartSetting' }"
         class="btn btn-default pull-right"
         >Create new Apartment</router-link
       >
-    </div>
+    </div> -->
 
     <div class="panel panel-default">
       <div class="panel-heading text-left">Users list</div>
@@ -43,18 +43,19 @@
               </td>
               <td data-label="Allow">
                 <toggle-button
-                  :value="true"
+                  @change="updateAllow(company.id, index, company.allow)"
+                  :value="company.allow == 0 ? false : true"
                   :labels="{ checked: 'On', unchecked: 'Off' }"
                 />
               </td>
               <td data-label="Actions">
                 <div class="row" style="margin-right: 0">
-                  <router-link
+                  <!-- <router-link
                     :to="{ name: 'editApartment', params: { id: company.id } }"
                     class="btn btn-xs btn-default"
                   >
                     Edit
-                  </router-link>
+                  </router-link> -->
                   <a
                     href="#"
                     class="btn btn-xs btn-danger"
@@ -117,6 +118,25 @@ export default {
             //alert("Could not delete company");
           });
       }
+    },
+    updateAllow(id, index, allow) {
+      var app = this;
+      axios
+        .patch("/api/v1/users/" + id, { allow: (allow + 1) % 2 })
+        .then((resp) => {
+          //app.$router.replace("/");
+          this.$toast.success({
+            title: "Success",
+            message: "Information Updated",
+            showMethod: "slideInRight",
+          });
+          app.companies[index].allow = resp.data.allow;
+          app.companies[index].port = resp.data.port;
+        })
+        .catch(function (resp) {
+          console.log(resp);
+          //alert("Could not create your company");
+        });
     },
   },
 };

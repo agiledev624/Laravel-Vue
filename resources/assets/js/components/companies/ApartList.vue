@@ -63,7 +63,7 @@ export default {
   mounted() {
     var app = this;
     axios
-      .get("/api/v1/aparts")
+      .get("/api/v1/aparts/list/" + this.$userId)
       .then(function (resp) {
         app.companies = resp.data;
       })

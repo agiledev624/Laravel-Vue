@@ -68,7 +68,7 @@
                         <!-- <li><a href="{{ route('register') }}">Register</a></li> -->
                         @else
                         
-
+                        @if (Auth::user()->allow)
                         <li>
                             <router-link :to="{ name: 'userList' }">Users</router-link>
                         </li>
@@ -78,6 +78,7 @@
                         <li>
                             <router-link :to="{ name: 'apartSetting' }">Apartment</router-link>
                         </li>
+                        @endif
                         <!-- <li><a href="{{ url('/admin/companies/lockersetting') }}">Locker</a></li> -->
                         <!-- <li><a href="{{ url('/admin/companies/apartsetting') }}">Apartment</a></li> -->
                         <li class="dropdown">

@@ -16,4 +16,19 @@ class CompaniesController extends Controller
         else
             return view('admin.companies.index');
     }
+
+    public function test()
+    {
+        try {
+            $lines = collect(file(base_path() . '/RS232.txt'))->map(function ($item) {
+                return explode("\t", $item);
+            });
+
+            dd($lines);
+            //code...
+        } catch (\Throwable $th) {
+            dd($th);
+            //throw $th;
+        }
+    }
 }

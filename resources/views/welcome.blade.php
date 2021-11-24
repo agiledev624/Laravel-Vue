@@ -67,13 +67,19 @@
                         <!-- <li><a href="{{ route('login') }}">Login</a></li> -->
                         <!-- <li><a href="{{ route('register') }}">Register</a></li> -->
                         @else
+                        @if (Auth::user()->allow)
                         <li><a href="{{ route('admin.qrcode.index', ['id'=>Auth::user()->id]) }}">QR Code</a></li>
                         <li>
-                            <router-link :to="{ name: 'lockerList' }">Locker</router-link>
+                            <a href="/lockerList">Locker</a>
+                            {{-- <router-link :to="{ name: 'lockerList' }">Locker</router-link> --}}
                         </li>
                         <li>
-                            <router-link :to="{ name: 'apartSetting' }">Apartment</router-link>
+                            <a href="/apartSetting">Apartment</a>
+                            {{-- <router-link :to="{ name: 'apartSetting' }">Apartment</router-link> --}}
                         </li>
+                        @else
+                        <li><a href="#">Contact Administrator to get permission</a></li>
+                        @endif
                         <!-- <li><a href="{{ url('/admin/companies/lockersetting') }}">Locker</a></li> -->
                         <!-- <li><a href="{{ url('/admin/companies/apartsetting') }}">Apartment</a></li> -->
                         <li class="dropdown">
@@ -110,11 +116,14 @@
                     @endauth
                 </div>
             @endif -->
-
+            @if (Auth::check()) 
+                    <meta name="user_id" content="{{ Auth::user()->id }}" />
+                    <meta name="user_port" content="{{ Auth::user()->port }}" />
+            @endif 
             <div class="content">
 
 
-                <!-- <router-view name="firstScreen" user='{{json_encode(Auth::user())}}'></router-view> -->
+                {{-- <router-view name="firstScreen" user='{{json_encode(Auth::user())}}'></router-view>  --}}
                 @yield('content')
 
                 <!-- 

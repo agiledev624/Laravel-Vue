@@ -112,6 +112,11 @@ class LockerController extends Controller
         return User::where('courier', $courier)->firstOrFail(['address']);
     }
 
+    public function list($id)
+    {
+        return Locker::select('*')->where('port', $id)->get();
+    }
+
     public function check_owner($owner)
     {
         return User::where('owner', $owner)->firstOrFail(['address']);
@@ -126,15 +131,15 @@ class LockerController extends Controller
             'unique' => 'required',
         ]);
         $input = $request->all();
-        $depart = Depart::select('*')->where('courier', $input['unique'])->orderBy('number')->get();
+        $depart = User::select('*')->where('courier', $input['unique'])->orderBy('id')->get();
         if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
         }
-        $url = url('') . '/#/owner/' . $depart->first()->owner;
+        $url = url('') . '/owner/' . $depart->first()->owner;
         // return '';
-        $locker = Locker::select('*')->where('owner', '0')->where('size', $input['size'])->orderBy('number')->get();
+        $locker = Locker::select('*')->where([['owner', '0'], ['size', $input['size']], ['port', $depart->first()->port]])->orderBy('number')->get();
 
         if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
@@ -147,12 +152,12 @@ class LockerController extends Controller
                 send_rs232($firstLocker->port, $firstLocker->code);
 
                 // TODO if succeed, notify the owner by sms
-                if (Apart::where('number', $input['owner'])->get()->isEmpty()) {
+                if (Apart::where([['number', $input['owner']], ['user_id', $depart->first()->id]])->get()->isEmpty()) {
                     return response()->json([
                         'message' => 'Apart number is invalid.'
                     ], 500);
                 }
-                $apart = Apart::where('number', $input['owner'])->first();
+                $apart = Apart::where([['number', $input['owner']], ['user_id', $depart->first()->id]])->first();
                 // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
                 $phone = $apart->phone;
                 // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
@@ -186,23 +191,25 @@ class LockerController extends Controller
             'number' => 'required',
             'pin' => 'required',
             'recaptcha' => ['required', $recaptcha],
+            'unique' => 'required',
         ]);
         // return '';
         $input = $request->all();
-        $depart = Depart::select('*')->where('owner', $input['unique'])->orderBy('number')->get();
+        $depart = User::select('*')->where('owner', $input['unique'])->orderBy('id')->get();
+        // $depart = Depart::select('*')->where('owner', $input['unique'])->orderBy('number')->get();
         if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
         }
-        $locker = Apart::select('*')->where('number', $input['number'])->get();
+        $locker = Apart::select('*')->where([['number', $input['number']], ['user_id', $depart->first()->id]])->get();
         if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
             if (
                 $firstLocker->pin == $input['pin'] &&
                 remove_whitespace($firstLocker->phone) == remove_whitespace($input['phone'])
             ) {
-                $result = Locker::select('*')->where('owner', $input['number'])->get();
+                $result = Locker::select('*')->where([['owner', $input['number']], ['port', $depart->first()->port]])->get();
                 foreach ($result as $r) {
                     // TODO open the locker and update
                     send_rs232($r->port, $r->code);

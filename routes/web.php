@@ -33,4 +33,5 @@ Route::group(['middleware' => ['auth'], 'as' => 'admin.'], function () {
     Route::get('qrcode/{id}', 'QRController@generateQrCode')->name('qrcode.index');
     Route::post('/download-qr-code/{type}', 'QRController@downloadQRCode')->name('qrcode.download');
 });
-// Route::get('/{any}', 'CompaniesController@index')->where('any', '.*');
+Route::get('/test', 'CompaniesController@test');
+Route::get('/{any}', 'CompaniesController@index')->where('any', '.*');

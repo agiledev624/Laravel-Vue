@@ -24,13 +24,12 @@ import ApartList from './components/companies/ApartList.vue'
 import ApartmentSetting from './components/companies/ApartmentSetting.vue'
 import ApartmentEdit from './components/companies/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
-
+import BaseLayout from './components/Base.vue'
+import Vue from 'vue'
 const routes = [
   {
     path: '/',
-    components: {
-      firstScreen: FirstScreen,
-    },
+    component: BaseLayout,
   },
   { path: '/courier/:id', component: CourierPage, name: 'courierPage' },
   { path: '/thanks', component: ThanksPage, name: 'thanksPage' },
@@ -71,6 +70,13 @@ const routes = [
   },
 ]
 
-const router = new VueRouter({ routes })
-
-const app = new Vue({ router }).$mount('#app')
+const router = new VueRouter({ mode: 'history', routes })
+if (document.querySelector("meta[name='user_id']")) {
+  Vue.prototype.$userId = document
+    .querySelector("meta[name='user_id']")
+    .getAttribute('content')
+  Vue.prototype.$userPort = document
+    .querySelector("meta[name='user_port']")
+    .getAttribute('content')
+}
+const app = new Vue({ router, render: (h) => h(BaseLayout) }).$mount('#vueApp')

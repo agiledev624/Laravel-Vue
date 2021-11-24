@@ -191,7 +191,7 @@ export default {
       var newCompany = app.sms;
       axios
         .post("/api/v1/settings/set_sms", newCompany)
-        .then(function (resp) {
+        .then((resp) => {
           // app.$router.push({ path: "/" });
           this.$toast.success({
             title: "Success",
@@ -209,7 +209,7 @@ export default {
       var newLocker = app.locker;
       axios
         .post("/api/v1/lockers/add", newLocker)
-        .then(function (resp) {
+        .then((resp) => {
           //app.$router.push({ path: "/" });
           console.log("success");
           this.$toast.success({

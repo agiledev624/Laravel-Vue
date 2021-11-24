@@ -75,7 +75,8 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'phone' => $data['phone'],
             'role' => $data['role'],
-            'port' => 0
+            'port' => 0,
+            'allow' => 0,
         ]);
     }
 }

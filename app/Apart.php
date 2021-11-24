@@ -8,7 +8,7 @@ class Apart extends Model
 {
     //
     protected $fillable = [
-        'number', 'phone', 'pin',
+        'number', 'phone', 'pin', 'user_id'
     ];
 
     public function user()

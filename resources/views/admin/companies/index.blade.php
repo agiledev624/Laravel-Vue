@@ -1,6 +1,6 @@
 @extends('welcome')
 
 @section('content')
-<router-view user=""></router-view>
+<div id="vueApp"></div>
 
 @endsection

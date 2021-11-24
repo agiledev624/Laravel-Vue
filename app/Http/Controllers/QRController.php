@@ -20,8 +20,8 @@ class QRController extends Controller
             $searchUser = User::select('*')->where('id', $id)->get();
             if ($searchUser->isEmpty())
                 return abort(404);
-            // $url = url('') . '/#/courier/' . 'a238bxce89349cdd3';
-            $url = url('') . '/#/courier/' . $searchUser->first()->courier;
+            // $url = url('') . '/courier/' . 'a238bxce89349cdd3';
+            $url = url('') . '/courier/' . $searchUser->first()->courier;
 
             return view('qr-code', ['unique' => $url]);
         }

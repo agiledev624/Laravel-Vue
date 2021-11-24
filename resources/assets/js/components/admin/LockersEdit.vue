@@ -127,7 +127,7 @@ export default {
       var newCompany = app.company;
       axios
         .patch("/api/v1/lockers/" + app.companyId, newCompany)
-        .then(function (resp) {
+        .then((resp) => {
           //app.$router.replace("/");
           this.$toast.success({
             title: "Success",
