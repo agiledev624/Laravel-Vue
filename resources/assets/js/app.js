@@ -24,12 +24,15 @@ import ApartList from './components/companies/ApartList.vue'
 import ApartmentSetting from './components/companies/ApartmentSetting.vue'
 import ApartmentEdit from './components/companies/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
+import Status from './components/companies/Status.vue'
 import BaseLayout from './components/Base.vue'
+
 import Vue from 'vue'
 const routes = [
   {
     path: '/',
     component: BaseLayout,
+    name: 'root',
   },
   { path: '/courier/:id', component: CourierPage, name: 'courierPage' },
   { path: '/thanks', component: ThanksPage, name: 'thanksPage' },
@@ -67,6 +70,11 @@ const routes = [
     path: '/aparts/edit/:id',
     component: ApartmentEdit,
     name: 'editApartment',
+  },
+  {
+    path: '/status',
+    component: Status,
+    name: 'status',
   },
 ]
 

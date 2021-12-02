@@ -27,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(company, index) in companies">
+            <tr v-for="(company, index) in companies" v-bind:key="index">
               <td>{{ company.number }}</td>
               <td>{{ company.code }}</td>
               <td>{{ type(company.size) }}</td>

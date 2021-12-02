@@ -10,7 +10,11 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading text-left">Apartments list</div>
+      <div class="panel-heading text-left">
+        Apartments list<span class="pull-right"
+          >User ID <input type="text" v-model="search"
+        /></span>
+      </div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
@@ -24,7 +28,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(company, index) in companies">
+            <tr
+              v-for="(company, index) in companies.filter((e) =>
+                search == '' ? true : e.user_id == search
+              )"
+              v-bind:key="index"
+            >
               <td>{{ index + 1 }}</td>
               <td>{{ company.user_id }}</td>
               <td>{{ company.number }}</td>
@@ -60,6 +69,7 @@ export default {
   data: function () {
     return {
       companies: [],
+      search: "",
     };
   },
   mounted() {

@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(company, index) in companies">
+            <tr v-for="(company, index) in companies" v-bind:key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ company.number }}</td>
               <td>{{ company.phone }}</td>

@@ -160,6 +160,9 @@ class LockerController extends Controller
                 $apart = Apart::where([['number', $input['owner']], ['user_id', $depart->first()->id]])->first();
                 // TODO if $apart is null, we will throw error ( if there is no number for this apart owner)
                 $phone = $apart->phone;
+                $setting = Setting::where('key', 'total_use')->first();
+                $setting->value = $setting->value + 1;
+                $setting->save();
                 // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
                 send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
                 $firstLocker->owner = $input['owner'];
@@ -239,6 +242,39 @@ class LockerController extends Controller
             $response = [
                 'result' => '3',
                 'message' => 'not available lockers for the input',
+            ];
+        }
+        return response()->json($response, 200);
+    }
+
+
+    public function get_status($id)
+    {
+        $response = [];
+        if ($id == 0) {
+            $total_use = Setting::where('key', 'total_use')->first()->value;
+            $total_users = User::count();
+            $total_lockers = Locker::count();
+            $total_apart = Apart::count();
+            $response = [
+                'result' => '0',
+                'message' => 'ok',
+                'total_users' => $total_users,
+                'total_use' => $total_use,
+                'total_lockers' => $total_lockers,
+                'total_aparts' => $total_apart,
+            ];
+        } else {
+            $apart_count = Apart::where('user_id', $id)->count();
+            $user_port = User::where('id', $id)->first()->port;
+            $locker_count = Locker::where('port', $user_port)->count();
+            $unopened = Locker::where([['port', $user_port], ['owner', '!=', 0]])->count();
+            $response = [
+                'result' => '0',
+                'message' => 'ok',
+                'unopened' => $unopened,
+                'total_lockers' => $locker_count,
+                'total_aparts' => $apart_count,
             ];
         }
         return response()->json($response, 200);

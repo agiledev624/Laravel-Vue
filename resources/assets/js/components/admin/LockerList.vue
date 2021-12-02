@@ -12,7 +12,12 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading text-left">Lockers list</div>
+      <div class="panel-heading text-left">
+        Lockers list
+        <span class="pull-right"
+          >COM Port <input type="text" v-model="search"
+        /></span>
+      </div>
       <div class="panel-body">
         <table class="table table-bordered table-striped">
           <thead>
@@ -25,7 +30,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(company, index) in companies">
+            <tr
+              v-for="(company, index) in companies.filter((e) =>
+                search == '' ? true : e.port == search
+              )"
+              v-bind:key="index"
+            >
               <td>{{ company.number }}</td>
               <td>{{ company.code }}</td>
               <td>{{ type(company.size) }}</td>
@@ -59,6 +69,7 @@
 export default {
   data: function () {
     return {
+      search: "",
       companies: [],
     };
   },
@@ -75,6 +86,9 @@ export default {
       });
   },
   methods: {
+    setSearch(searchKey) {
+      search = searchKey;
+    },
     type(id) {
       switch (id) {
         case "0":

@@ -25,6 +25,7 @@ import ApartmentSetting from './components/admin/ApartmentSetting.vue'
 import ApartmentEdit from './components/admin/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
 import UserList from './components/admin/UserList.vue'
+import Status from './components/admin/Status.vue'
 
 const routes = [
   {
@@ -74,6 +75,11 @@ const routes = [
     path: '/userlist',
     component: UserList,
     name: 'userList',
+  },
+  {
+    path: '/status',
+    component: Status,
+    name: 'status',
   },
 ]
 

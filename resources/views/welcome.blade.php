@@ -68,6 +68,9 @@
                         <!-- <li><a href="{{ route('register') }}">Register</a></li> -->
                         @else
                         @if (Auth::user()->allow)
+                        <li>
+                            <a href="/status">Status</a>
+                        </li>
                         <li><a href="{{ route('admin.qrcode.index', ['id'=>Auth::user()->id]) }}">QR Code</a></li>
                         <li>
                             <a href="/lockerList">Locker</a>

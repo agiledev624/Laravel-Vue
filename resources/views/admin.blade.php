@@ -70,6 +70,9 @@
                         
                         @if (Auth::user()->allow)
                         <li>
+                            <router-link :to="{ name: 'status' }">Status</router-link>
+                        </li>
+                        <li>
                             <router-link :to="{ name: 'userList' }">Users</router-link>
                         </li>
                         <li>

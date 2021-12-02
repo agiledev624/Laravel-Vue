@@ -74,7 +74,7 @@ class UserController extends Controller
 
         $insert_data = [];
         for ($i = 6; $i < count($lines); $i++) {
-          array_push($insert_data, array('number' => $lines[$i][0], 'port' => $input['port'], 'size' => $lines[$i][1], 'owner' => '0', 'code' => substr($lines[$i][2], 0, -2)));
+          array_push($insert_data, array('number' => $lines[$i][0], 'port' => $input['port'], 'size' => $lines[$i][1], 'owner' => '0', 'code' => substr($lines[$i][2], 0, -1)));
         }
         Locker::insert($insert_data);
         //code...

@@ -4,6 +4,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.', 'middl
     Route::resource('companies', 'CompaniesController', ['except' => ['create', 'edit']]);
     Route::post('lockers/add', 'LockerController@add')->name('lockers.add');
     Route::get('lockers/list/{id}', 'LockerController@list')->name('lockers.list');
+    Route::get('lockers/get_status/{id}', 'LockerController@get_status')->name('lockers.get_status');
     Route::resource('lockers', 'LockerController');
     Route::get('aparts/list/{id}', 'ApartController@list')->name('aparts.list');
     Route::resource('aparts', 'ApartController');
