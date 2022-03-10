@@ -70,6 +70,7 @@ export default {
     axios
       .get("/api/v1/lockers/list/" + this.$userPort)
       .then(function (resp) {
+        console.log(resp.data);
         app.companies = resp.data;
       })
       .catch(function (resp) {

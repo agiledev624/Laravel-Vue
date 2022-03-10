@@ -44,21 +44,30 @@ if (!function_exists('send_rs232')) {
 if (!function_exists('send_sms_via_gsm')) {
     function send_sms_via_gsm($number, $owner, $text, $url)
     {
+        $msg = 'Hello, ' . $owner . '. ' . $text . 'Please visit this link. ' . $url;
+        $endpoint = "http://127.0.0.1:9501/api";
+        $curl = curl_init($endpoint);
+        $params = array('action' => 'sendmessage', 'username' => 'admin', 'password' => 'admin', 'recipient' => $number, 'messagetype' => 'SMS:TEXT', 'messagedata' => $msg);
+        $url = $endpoint . '?' . http_build_query($params);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $configuration = new Ozeki_PHP_Rest\Configuration();
+        $result = curl_exec($curl);
 
-        $configuration->Username = "mark";
-        $configuration->Password = "mark";
-        $configuration->ApiUrl = "http://localhost:9509/api";
+        // $configuration = new Ozeki_PHP_Rest\Configuration();
 
-        $msg = new Ozeki_PHP_Rest\Message();
+        // $configuration->Username = "mark";
+        // $configuration->Password = "mark";
+        // $configuration->ApiUrl = "http://localhost:9509/api";
 
-        $msg->ToAddress = $number;
-        $msg->Text = 'Hello, ' . $owner . '. ' . $text . 'Please visit this link. ' . $url;
+        // $msg = new Ozeki_PHP_Rest\Message();
 
-        $api = new Ozeki_PHP_Rest\MessageApi($configuration);
+        // $msg->ToAddress = $number;
+        // $msg->Text = 'Hello, ' . $owner . '. ' . $text . 'Please visit this link. ' . $url;
 
-        $result = $api->SendSingle($msg);
+        // $api = new Ozeki_PHP_Rest\MessageApi($configuration);
+
+        // $result = $api->SendSingle($msg);
 
         // echo strval($result);
         return $result;

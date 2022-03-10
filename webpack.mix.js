@@ -12,10 +12,10 @@ let mix = require('laravel-mix')
  */
 mix.options({
   autoprefixer: { remove: false },
-  //    hmrOptions: {
-  //       host: 'localhost',  // mysite.test is my local domain used for testing
-  //       port: 8080,
-  //   }
+  // hmrOptions: {
+  //   host: 'localhost', // mysite.test is my local domain used for testing
+  //   port: 8080,
+  // },
 })
 
 mix

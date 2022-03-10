@@ -8,6 +8,6 @@ class Locker extends Model
 {
     //
     protected $fillable = [
-        'port', 'size', 'code', 'owner', 'number'
+        'port', 'size', 'code', 'owner', 'number', 'locked_time'
     ];
 }

@@ -21,4 +21,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::get('lockers/check_owner/{id}', 'LockerController@check_owner')->name('lockers.check_owner');
     Route::post('lockers/new_assign', 'LockerController@new_assign')->name('lockers.new_assign');
     Route::post('lockers/open_lockers', 'LockerController@open_lockers')->name('lockers.open_lockers');
+    Route::post('lockers/open_locker', 'LockerController@open_locker')->name('lockers.open_locker');
+    Route::post('lockers/notify_owner', 'LockerController@notify_owner')->name('lockers.notify_owner');
+    Route::post('lockers/check_reminder', 'LockerController@check_reminder')->name('lockers.check_reminder');
 });

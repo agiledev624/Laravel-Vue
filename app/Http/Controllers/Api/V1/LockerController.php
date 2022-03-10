@@ -149,7 +149,7 @@ class LockerController extends Controller
 
             try {
                 // TODO reactivate this
-                send_rs232($firstLocker->port, $firstLocker->code);
+                // send_rs232($firstLocker->port, $firstLocker->code);
 
                 // TODO if succeed, notify the owner by sms
                 if (Apart::where([['number', $input['owner']], ['user_id', $depart->first()->id]])->get()->isEmpty()) {
@@ -164,8 +164,12 @@ class LockerController extends Controller
                 $setting->value = $setting->value + 1;
                 $setting->save();
                 // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
-                send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
+
+                // TODO temporary commented for local test
+                // send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
                 $firstLocker->owner = $input['owner'];
+                $firstLocker->reminded = false;
+                $firstLocker->locked_time = now()->timestamp;
                 $firstLocker->save();
                 $response = [
                     'result' => '0',
@@ -218,6 +222,7 @@ class LockerController extends Controller
                     send_rs232($r->port, $r->code);
                     // TODO check if it succeed,
                     $r->owner = '0';
+                    $r->reminded = false;
                     $r->save();
                     // echo $r->email;
                 }
@@ -247,6 +252,65 @@ class LockerController extends Controller
         return response()->json($response, 200);
     }
 
+    public function open_locker(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        // return '';
+        $input = $request->all();
+        $result = Locker::select('*')->where(['id', $input['id']])->get();
+
+        foreach ($result as $r) {
+            // TODO open the locker and update
+            send_rs232($r->port, $r->code);
+            // TODO check if it succeed,
+            $r->owner = '0';
+            $r->reminded = false;
+            $r->save();
+            // echo $r->email;
+        }
+        $response = [
+            'result' => '0',
+            'message' => 'succeed',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function notify_owner(Request $request)
+    {
+        $this->validate($request, [
+            'user_id' => 'required',
+            'apart_number' => 'required'
+        ]);
+        $input = $request->all();
+
+        $result = Apart::where([['number', $input['apart_number']], ['user_id', $input['user_id']]])->get();
+        if ($result->isEmpty()) {
+            $response = [
+                'result' => '1',
+                'message' => 'no apartment',
+            ];
+            return response()->json($response, 200);
+        }
+        $result->first();
+
+        $depart = User::select('*')->where('user_id', $input['user_id'])->orderBy('id')->get();
+        if ($depart->isEmpty()) {
+            return response()->json([
+                'message' => 'Invaid request to the server. (Illegal Url)'
+            ], 500);
+        }
+        $url = url('') . '/owner/' . $depart->first()->owner;
+
+        send_sms_via_gsm($result->first()->phone, $input['apart_number'], Setting::where('key', 'sms_msg')->first()->value, $url);
+
+        $response = [
+            'result' => '0',
+            'message' => 'succeed',
+        ];
+        return response()->json($response, 200);
+    }
 
     public function get_status($id)
     {
@@ -277,6 +341,43 @@ class LockerController extends Controller
                 'total_aparts' => $apart_count,
             ];
         }
+        return response()->json($response, 200);
+    }
+
+    public function check_reminder()
+    {
+        $MAX_DIFF_TIME = 24 * 60 * 60;
+        try {
+            $result = Locker::where([['owner', '!=', '0'], ['reminded', false]])->get()->groupBy('port');
+            foreach ($result as $r) {
+                $port = -1;
+                $user_id = -1;
+                $url = '';
+                foreach ($r as $locker) {
+                    if ($port < 0) {
+                        $user = User::select('*')->where('port', $locker->port)->orderBy('id')->get()->first();
+                        $port = $locker->port;
+                        $url = url('') . '/owner/' . $user->owner;
+                    }
+                    if ((now()->timestamp - $locker->locked_time) >= $MAX_DIFF_TIME) {
+                        $apart = Apart::where([['number', $locker['owner']], ['user_id', $user->id]])->first();
+
+                        send_sms_via_gsm($apart->phone, $locker['owner'], 'Reminder Message ' . Setting::where('key', 'sms_msg')->first()->value, $url);
+
+                        $locker->reminded = true;
+                        $locker->save();
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+        $response = [
+            'result' => '0',
+            'message' => 'succeed',
+        ];
         return response()->json($response, 200);
     }
 }

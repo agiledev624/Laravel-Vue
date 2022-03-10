@@ -15,7 +15,8 @@ class ModifyLockersTableForeign extends Migration
     {
         //
         Schema::table('lockers', function (Blueprint $table) {
-            $table->foreign('port')->references('port')->on('users')->onDelete('cascade')->onUpdate('cascade');;
+            // mark pc was removed?
+            // $table->foreign('port')->references('port')->on('users')->onDelete('cascade')->onUpdate('cascade');;
         });
     }
 

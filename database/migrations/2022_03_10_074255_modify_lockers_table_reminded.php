@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ModifyApartsTableForeign extends Migration
+class ModifyLockersTableReminded extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,8 @@ class ModifyApartsTableForeign extends Migration
     public function up()
     {
         //
-        Schema::table('aparts', function (Blueprint $table) {
-            //
-            $table->string('user_id')->nullable()->after('id');
-
-            // on mark pc it was removed?
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');;
+        Schema::table('lockers', function (Blueprint $table) {
+            $table->boolean('reminded')->unsigned()->nullable();
         });
     }
 
