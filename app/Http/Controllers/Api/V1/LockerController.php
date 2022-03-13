@@ -149,7 +149,7 @@ class LockerController extends Controller
 
             try {
                 // TODO reactivate this
-                // send_rs232($firstLocker->port, $firstLocker->code);
+                send_rs232($firstLocker->port, $firstLocker->code);
 
                 // TODO if succeed, notify the owner by sms
                 if (Apart::where([['number', $input['owner']], ['user_id', $depart->first()->id]])->get()->isEmpty()) {
@@ -166,7 +166,7 @@ class LockerController extends Controller
                 // send_sms(Setting::where('key','sms_port')->first()->value, $phone, Setting::where('key', 'sms_msg')->first()->value);
 
                 // TODO temporary commented for local test
-                // send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
+                send_sms_via_gsm($phone, $input['owner'], Setting::where('key', 'sms_msg')->first()->value, $url);
                 $firstLocker->owner = $input['owner'];
                 $firstLocker->reminded = false;
                 $firstLocker->locked_time = now()->timestamp;
