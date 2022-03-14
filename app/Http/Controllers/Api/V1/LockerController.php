@@ -347,6 +347,8 @@ class LockerController extends Controller
     public function check_reminder()
     {
         $MAX_DIFF_TIME = 24 * 60 * 60;
+        $checked_lockers = 0;
+
         try {
             $result = Locker::where([['owner', '!=', '0'], ['reminded', false]])->get()->groupBy('port');
             foreach ($result as $r) {
@@ -366,6 +368,8 @@ class LockerController extends Controller
 
                         $locker->reminded = true;
                         $locker->save();
+
+                        $checked_lockers++;
                     }
                 }
             }
@@ -377,6 +381,8 @@ class LockerController extends Controller
         $response = [
             'result' => '0',
             'message' => 'succeed',
+            'time' => now(),
+            'count' => $checked_lockers,
         ];
         return response()->json($response, 200);
     }
