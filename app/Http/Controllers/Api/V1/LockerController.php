@@ -381,7 +381,7 @@ class LockerController extends Controller
         $response = [
             'result' => '0',
             'message' => 'succeed',
-            'time' => now(),
+            'time' => date("D M d, Y G:i"),
             'count' => $checked_lockers,
         ];
         return response()->json($response, 200);
