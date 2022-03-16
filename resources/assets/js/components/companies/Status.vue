@@ -158,10 +158,10 @@ export default {
       return "Small";
     },
     openLocker(id) {
-      if (confirm("Do you really want to delete it?")) {
+      if (confirm("Do you really want to open it?")) {
         var app = this;
         axios
-          .post("/api/v1/lockers/open_locker" + id)
+          .post("/api/v1/lockers/open_locker", id)
           .then(function (resp) {
             if (resp.data.result != 0) return;
             var app = this;
@@ -199,10 +199,10 @@ export default {
     },
     notifyOwner(owner) {
       axios
-        .post(
-          "/api/v1/lockers/notify_owner" +
-            { user_id: this.$userId, apart_number: owner }
-        )
+        .post("/api/v1/lockers/notify_owner", {
+          user_id: this.$userId,
+          apart_number: owner,
+        })
         .then(function (resp) {
           if (resp.data.result == 0) {
             this.$toast.success({
