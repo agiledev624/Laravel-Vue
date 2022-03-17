@@ -161,7 +161,7 @@ export default {
       if (confirm("Do you really want to open it?")) {
         var app = this;
         axios
-          .post("/api/v1/lockers/open_locker", id)
+          .post("/api/v1/lockers/open_locker", { id: id })
           .then(function (resp) {
             if (resp.data.result != 0) return;
             var app = this;

@@ -295,7 +295,7 @@ class LockerController extends Controller
         }
         $result->first();
 
-        $depart = User::select('*')->where('user_id', $input['user_id'])->orderBy('id')->get();
+        $depart = User::select('*')->where('id', $input['user_id'])->orderBy('id')->get();
         if ($depart->isEmpty()) {
             return response()->json([
                 'message' => 'Invaid request to the server. (Illegal Url)'
