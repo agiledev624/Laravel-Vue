@@ -167,35 +167,33 @@ export default {
           })
           .then(function (resp) {
             console.log(resp.data);
-            if (resp.data.result == 0) {
-              var app = this;
-              axios
-                .get(`/api/v1/lockers/get_status/${this.$userId}`)
-                .then(function (resp) {
-                  app.companies = resp.data;
-                })
-                .catch(function (resp) {
-                  console.log(resp);
-                  //alert("Could not load companies");
-                });
-
-              this.$toast.success({
-                title: "Success",
-                message: "Opened the locker.",
-                showMethod: "slideInRight",
+            var app = this;
+            axios
+              .get(`/api/v1/lockers/get_status/${this.$userId}`)
+              .then(function (resp) {
+                app.companies = resp.data;
+              })
+              .catch(function (resp) {
+                console.log(resp);
+                //alert("Could not load companies");
               });
 
-              axios
-                .get("/api/v1/lockers/list/" + this.$userPort)
-                .then(function (resp) {
-                  console.log(resp.data);
-                  app.lockers = resp.data;
-                })
-                .catch(function (resp) {
-                  console.log(resp);
-                  //alert("Could not load companies");
-                });
-            }
+            this.$toast.success({
+              title: "Success",
+              message: "Opened the locker.",
+              showMethod: "slideInRight",
+            });
+
+            axios
+              .get("/api/v1/lockers/list/" + this.$userPort)
+              .then(function (resp) {
+                console.log(resp.data);
+                app.lockers = resp.data;
+              })
+              .catch(function (resp) {
+                console.log(resp);
+                //alert("Could not load companies");
+              });
           })
           .catch(function (resp) {
             //alert("Could not delete company");
