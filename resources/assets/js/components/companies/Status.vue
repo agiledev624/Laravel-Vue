@@ -70,7 +70,7 @@
                   <a
                     href="#"
                     class="btn btn-xs btn-danger"
-                    v-on:click="openLocker(company.owner, index)"
+                    v-on:click="openLocker(company.owner, company.number)"
                   >
                     Open
                   </a>
