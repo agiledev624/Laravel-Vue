@@ -255,11 +255,12 @@ class LockerController extends Controller
     public function open_locker(Request $request)
     {
         $this->validate($request, [
-            'id' => 'required',
+            'number' => 'required',
+            'port' => 'required'
         ]);
         // return '';
         $input = $request->all();
-        $result = Locker::select('*')->where('id', $input['id'])->get();
+        $result = Locker::select('*')->where([['number', $input['number']], ['port', $input['port']]])->get();
 
         foreach ($result as $r) {
             // TODO open the locker and update
