@@ -166,6 +166,7 @@ export default {
             number: id,
           })
           .then(function (resp) {
+            console.log(resp.data);
             if (resp.data.result != 0) return;
             var app = this;
             axios
