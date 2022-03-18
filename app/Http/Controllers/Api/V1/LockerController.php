@@ -259,7 +259,7 @@ class LockerController extends Controller
         ]);
         // return '';
         $input = $request->all();
-        $result = Locker::select('*')->where(['id', $input['id']])->get();
+        $result = Locker::select('*')->where('id', $input['id'])->get();
 
         foreach ($result as $r) {
             // TODO open the locker and update
