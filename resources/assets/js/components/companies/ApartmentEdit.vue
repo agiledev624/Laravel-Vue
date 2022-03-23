@@ -28,7 +28,12 @@
           <div class="row">
             <div class="col-xs-12 form-group">
               <label class="control-label">Phone</label>
-              <input type="text" v-model="company.phone" class="form-control" />
+              <VuePhoneNumberInput
+                default-country-code="AU"
+                v-model="company.phone"
+                :only-countries="only_countries"
+              />
+              <!-- <input type="text" v-model="company.phone" class="form-control" /> -->
             </div>
           </div>
           <div class="row">
@@ -49,7 +54,13 @@
 </template>
 
 <script>
+import VuePhoneNumberInput from "vue-phone-number-input";
+import "vue-phone-number-input/dist/vue-phone-number-input.css";
+
 export default {
+  components: {
+    VuePhoneNumberInput,
+  },
   mounted() {
     let app = this;
     let id = app.$route.params.id;
@@ -57,6 +68,7 @@ export default {
     axios
       .get("/api/v1/aparts/" + id)
       .then(function (resp) {
+        resp.data.phone = resp.data.phone.replace("+610", "");
         app.company = resp.data;
       })
       .catch(function () {
@@ -72,12 +84,14 @@ export default {
         phone: "",
         pin: "",
       },
+      only_countries: ["AU"],
     };
   },
   methods: {
     saveForm() {
       var app = this;
       var newCompany = app.company;
+      newCompany.phone = this.parsePhone(newCompany.phone);
       axios
         .patch("/api/v1/aparts/" + app.companyId, newCompany)
         .then((resp) => {

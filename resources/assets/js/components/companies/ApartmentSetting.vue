@@ -27,11 +27,16 @@
           <div class="row">
             <div class="col-xs-12 form-group">
               <label class="control-label">Phone Number</label>
-              <input
+              <!-- <input
                 type="text"
                 v-model="company.phone"
                 class="form-control"
                 placeholder="Example 0414 556 390"
+              /> -->
+              <VuePhoneNumberInput
+                default-country-code="AU"
+                v-model="company.phone"
+                :only-countries="only_countries"
               />
             </div>
           </div>
@@ -58,7 +63,15 @@
 </template>
 
 <script>
+import VuePhoneNumberInput from "vue-phone-number-input";
+import "vue-phone-number-input/dist/vue-phone-number-input.css";
+
+// Vue.component("vue-phone-number-input", VuePhoneNumberInput);
+
 export default {
+  components: {
+    VuePhoneNumberInput,
+  },
   data: function () {
     return {
       company: {
@@ -67,12 +80,16 @@ export default {
         phone: "",
         user_id: this.$userId,
       },
+      phone_select: "",
+      only_countries: ["AU"],
     };
   },
   methods: {
     saveForm() {
       var app = this;
       var newCompany = app.company;
+      newCompany.phone = this.parsePhone(newCompany.phone);
+      // console.log(newCompany);
       axios
         .post("/api/v1/aparts", newCompany)
         .then((resp) => {

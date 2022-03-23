@@ -26,6 +26,7 @@ import ApartmentEdit from './components/admin/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
 import UserList from './components/admin/UserList.vue'
 import Status from './components/admin/Status.vue'
+import Vue from 'vue'
 
 const routes = [
   {
@@ -85,4 +86,19 @@ const routes = [
 
 const router = new VueRouter({ mode: 'history', routes })
 
-const app = new Vue({ router }).$mount('#app')
+Vue.mixin({
+  methods: {
+    parsePhone: function(phone) {
+      const pattern = /(\(|\)| )/g
+      let trimmed = phone.replace(pattern, '')
+      const regex = new RegExp('^0+(?!$)', 'g')
+
+      // Replaces the matched
+      // value with given string
+      return '+61' + trimmed.replaceAll(regex, '')
+    },
+  },
+})
+const app = new Vue({
+  router,
+}).$mount('#app')

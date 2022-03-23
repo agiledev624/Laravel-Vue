@@ -41,14 +41,11 @@
           </div>
           <div class="row">
             <div class="col-xs-12 form-group">
-              <label class="control-label"
-                >Your phone number. Please type without space.</label
-              >
-              <input
-                type="text"
+              <label class="control-label">Your phone number</label>
+              <VuePhoneNumberInput
+                default-country-code="AU"
                 v-model="company.phone"
-                class="form-control"
-                placeholder="+61323423422"
+                :only-countries="only_countries"
               />
             </div>
           </div>
@@ -82,9 +79,11 @@
 <script>
 import VueRecaptcha from "vue-recaptcha";
 import VueLoadingButton from "vue-loading-button";
+import VuePhoneNumberInput from "vue-phone-number-input";
+import "vue-phone-number-input/dist/vue-phone-number-input.css";
 
 export default {
-  components: { VueRecaptcha, VueLoadingButton },
+  components: { VueRecaptcha, VueLoadingButton, VuePhoneNumberInput },
   data: function () {
     return {
       company: {
@@ -94,6 +93,7 @@ export default {
         recaptcha: "",
         unique: this.$route.params.id,
       },
+      only_countries: ["AU"],
       errors: [],
       siteKey: process.env.MIX_RECAPTCHA_SITE_KEY,
       isLoading: false,
@@ -119,6 +119,7 @@ export default {
     saveForm() {
       var app = this;
       var newCompany = app.company;
+      newCompany.phone = this.parsePhone(newCompany.phone);
       this.errors = [];
       this.isLoading = true;
       axios

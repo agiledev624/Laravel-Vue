@@ -87,4 +87,35 @@ if (document.querySelector("meta[name='user_id']")) {
     .querySelector("meta[name='user_port']")
     .getAttribute('content')
 }
-const app = new Vue({ router, render: (h) => h(BaseLayout) }).$mount('#vueApp')
+
+// var mixin = {
+//   methods: {
+//     foo: function() {
+//       console.log('foo')
+//     },
+//     conflicting: function() {
+//       console.log('from mixin')
+//     },
+//   },
+// }
+
+Vue.mixin({
+  methods: {
+    parsePhone: function(phone) {
+      const pattern = /(\(|\)| )/g
+      let trimmed = phone.replace(pattern, '')
+      const regex = new RegExp('^0+(?!$)', 'g')
+
+      // Replaces the matched
+      // value with given string
+      return '+61' + trimmed.replaceAll(regex, '')
+    },
+  },
+})
+
+const app = new Vue({
+  // mixins: [mixin],
+
+  router,
+  render: (h) => h(BaseLayout),
+}).$mount('#vueApp')
