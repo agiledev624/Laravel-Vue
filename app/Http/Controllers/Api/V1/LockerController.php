@@ -7,6 +7,7 @@ use App\Setting;
 use App\Apart;
 use App\Depart;
 use App\User;
+use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Rules\Recaptcha;
@@ -109,7 +110,7 @@ class LockerController extends Controller
 
     public function check_courier($courier)
     {
-        return User::where('courier', $courier)->firstOrFail(['address']);
+        return User::where('courier', $courier)->firstOrFail(['address', 'phone']);
     }
 
     public function list($id)
@@ -386,5 +387,62 @@ class LockerController extends Controller
             'count' => $checked_lockers,
         ];
         return response()->json($response, 200);
+    }
+
+    public function access_foyer(Request $request, Recaptcha $recaptcha)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'password' => 'required',
+            'recaptcha' => ['required', $recaptcha],
+            'unique' => 'required',
+        ]);
+        $input = $request->all();
+        $depart = User::select('*')->where('courier', $input['unique'])->orderBy('id')->get();
+
+        if ($depart->isEmpty()) {
+            return response()->json([
+                'message' => 'Invaid request to the server. (Illegal Url)'
+            ], 500);
+        }
+
+        $courier = Courier::select('*')->where([['user_id', $depart->first()->id], ['name', $input['name']]])->get();
+
+        if ($courier->isEmpty()) {
+            return response()->json([
+                'result' => '1',
+                'message' => 'No user for the building'
+            ], 200);
+        }
+
+        if ($courier->first()->password != bcrypt($input['password'])) {
+            return response()->json([
+                'result' => '1',
+                'message' => 'Wrong password'
+            ], 200);
+        }
+
+
+        // send rs232 to open the foyer front door
+        // temporary set port as 1, get the result and check if succeed
+
+        try {
+            // TODO reactivate this
+
+            $setting = Setting::where('key', 'foyer_code')->first();
+
+            send_rs232($depart->first()->port, $setting->value);
+
+            $response = [
+                'result' => '0',
+                'message' => 'ok',
+            ];
+
+            return response()->json($response, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

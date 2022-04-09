@@ -80,6 +80,10 @@
                             <a href="/apartSetting">Apartment</a>
                             {{-- <router-link :to="{ name: 'apartSetting' }">Apartment</router-link> --}}
                         </li>
+                        <li>
+                            <a href="/courierSetting">Courier</a>
+                            {{-- <router-link :to="{ name: 'apartSetting' }">Apartment</router-link> --}}
+                        </li>
                         @else
                         <li><a href="#">Contact Administrator to get permission</a></li>
                         @endif

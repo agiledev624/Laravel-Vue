@@ -53,6 +53,45 @@
           </div>
         </form>
 
+        <form v-on:submit.prevent="saveFoyerForm()">
+          <!-- <div class="row"> -->
+          <!-- <div class="col-xs-12 form-group"> -->
+          <!-- <label class="control-label">Comms port for SMS service</label> -->
+          <!-- <select class="form-control">
+                <option>Com1</option>
+                <option>Com2</option>
+                <option>Com3</option>
+                <option>Com4</option>
+                <option>Com5</option>
+              </select> -->
+          <!-- <input
+                type="text"
+                v-model="sms.port"
+                class="form-control"
+                placeholder="port number"
+              /> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <div class="row">
+            <div class="col-xs-12 form-group">
+              <label class="control-label"
+                >RS232 Serial Data to Open Foyer</label
+              >
+              <input
+                type="text"
+                v-model="foyer_code"
+                class="form-control"
+                placeholder="01 43 A7 B6 22 B5 CC EF A0"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 form-group text-right">
+              <button class="btn btn-success">Update</button>
+            </div>
+          </div>
+        </form>
+
         <form v-on:submit.prevent="addLocker()">
           <div class="row">
             <div class="col-xs-12 form-group">
@@ -167,6 +206,7 @@ export default {
         owner: "0",
       },
       selected: "",
+      foyer_code: "",
     };
   },
   mounted() {
@@ -180,6 +220,12 @@ export default {
       .catch(function () {
         //alert("Could not load your company");
       });
+    axios
+      .get("/api/v1/settings/get_foyer")
+      .then(function (resp) {
+        app.foyer_code = resp.data;
+      })
+      .catch(function () {});
   },
   methods: {
     onChange(event) {
@@ -191,6 +237,24 @@ export default {
       var newCompany = app.sms;
       axios
         .post("/api/v1/settings/set_sms", newCompany)
+        .then((resp) => {
+          // app.$router.push({ path: "/" });
+          this.$toast.success({
+            title: "Success",
+            message: "Information Updated",
+            showMethod: "slideInRight",
+          });
+        })
+        .catch(function (resp) {
+          console.log(resp);
+          //alert("Could not create your company");
+        });
+    },
+    saveFoyerForm() {
+      var app = this;
+      var newCompany = app.foyer_code;
+      axios
+        .post("/api/v1/settings/set_foyer", { foyer_code: newCompany })
         .then((resp) => {
           // app.$router.push({ path: "/" });
           this.$toast.success({

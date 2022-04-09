@@ -9,19 +9,25 @@ require('./bootstrap')
 window.Vue = require('vue').default
 import VueRouter from 'vue-router'
 import CxltToastr from 'cxlt-vue2-toastr'
+import VModal from 'vue-js-modal'
+// import 'vue-js-modal/dist/styles.css'
 
 window.Vue.use(VueRouter)
 window.Vue.use(CxltToastr, { position: 'bottom right' })
+window.Vue.use(VModal, { dialog: true })
 
 import CompaniesIndex from './components/companies/CompaniesIndex.vue'
 import CourierPage from './components/companies/CourierPage.vue'
+import FoyerAccess from './components/companies/FoyerAccess.vue'
 import LockersEdit from './components/companies/LockersEdit.vue'
 import FirstScreen from './components/FirstScreen.vue'
 import OwnerPage from './components/companies/OwnerPage.vue'
 import LockerSetting from './components/companies/LockerSetting.vue'
 import LockerList from './components/companies/LockerList.vue'
 import ApartList from './components/companies/ApartList.vue'
+import CourierList from './components/companies/CourierList.vue'
 import ApartmentSetting from './components/companies/ApartmentSetting.vue'
+import CourierSetting from './components/companies/CourierSetting.vue'
 import ApartmentEdit from './components/companies/ApartmentEdit.vue'
 import ThanksPage from './components/companies/ThanksPage.vue'
 import Status from './components/companies/Status.vue'
@@ -67,6 +73,16 @@ const routes = [
     name: 'apartList',
   },
   {
+    path: '/couriersetting',
+    component: CourierSetting,
+    name: 'courierSetting',
+  },
+  {
+    path: '/courierlist',
+    component: CourierList,
+    name: 'courierList',
+  },
+  {
     path: '/aparts/edit/:id',
     component: ApartmentEdit,
     name: 'editApartment',
@@ -75,6 +91,11 @@ const routes = [
     path: '/status',
     component: Status,
     name: 'status',
+  },
+  {
+    path: '/foyer/:id',
+    component: FoyerAccess,
+    name: 'foyerAccess',
   },
 ]
 

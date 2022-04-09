@@ -10,11 +10,17 @@ window.Vue = require('vue').default
 import VueRouter from 'vue-router'
 import CxltToastr from 'cxlt-vue2-toastr'
 
+import Popover from 'vue-js-popover'
+import VModal from 'vue-js-modal'
+// import 'vue-js-modal/dist/styles.css'
+
 window.Vue.use(VueRouter)
 window.Vue.use(CxltToastr, { position: 'bottom right' })
-
+window.Vue.use(VModal, { dialog: true })
+// window.Vue.use(Popover)
 import CompaniesIndex from './components/companies/CompaniesIndex.vue'
 import CourierPage from './components/companies/CourierPage.vue'
+import FoyerAccess from './components/companies/FoyerAccess.vue'
 import LockersEdit from './components/admin/LockersEdit.vue'
 import FirstScreen from './components/FirstScreen.vue'
 import OwnerPage from './components/companies/OwnerPage.vue'
@@ -81,6 +87,11 @@ const routes = [
     path: '/status',
     component: Status,
     name: 'status',
+  },
+  {
+    path: '/foyer/:id',
+    component: FoyerAccess,
+    name: 'foyerAccess',
   },
 ]
 

@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <!-- <div class="form-group text-left">
@@ -10,7 +9,7 @@
       <p>{{ $route.params.id }}</p> -->
     <div class="panel panel-default text-left">
       <div class="panel-heading">
-        <span>Couriers Page</span>
+        <span>Foyer Access</span>
         <span class="pull-right"
           ><strong> Address : {{ address }} </strong></span
         >
@@ -19,18 +18,34 @@
         <form v-on:submit.prevent="saveForm()">
           <div class="row">
             <div class="col-xs-12 form-group">
-              <label class="control-label"
-                >Apartment Number that your delivery is for</label
-              >
+              <label class="control-label">Username</label>
               <input
                 type="text"
-                v-model="company.owner"
+                v-model="company.name"
                 class="form-control"
-                placeholder="1234a"
+                placeholder="Alice"
               />
             </div>
           </div>
           <div class="row">
+            <div class="col-xs-12 form-group">
+              <label class="control-label">Password</label>
+              <input
+                type="password"
+                v-model="company.password"
+                class="form-control"
+                placeholder="1234"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 form-group">
+              <span class="btn btn-link" @click="openContactModal">
+                Don't have login yet?
+              </span>
+            </div>
+          </div>
+          <!-- <div class="row">
             <div class="col-xs-12 form-group">
               <label class="control-label"
                 >Locker Size you need for your delivery</label
@@ -75,8 +90,8 @@
                   Large
                 </label>
               </div>
-            </div>
-          </div>
+            </div> 
+          </div>-->
           <vue-recaptcha
             ref="recaptcha"
             @verify="onVerify"
@@ -87,24 +102,34 @@
           </ul>
           <div class="row">
             <div class="col-xs-12 form-group text-right p-t-10">
-              <router-link
-                :to="'/foyer/' + company.unique"
-                class="btn btn-success pull-left m-t-10"
-                >To Access Foyer</router-link
+              <a
+                @click="$router.go(-1)"
+                class="btn btn-default pull-left m-t-10"
+                >Back</a
               >
+              <!-- <router-link
+                :to="{ name: 'foyerAccess' }"
+                class="btn btn-default pull-left m-t-10"
+                >Back</router-link
+              > -->
               <VueLoadingButton
                 class="btn btn-success btn--margin"
                 aria-label="Open"
                 @click.native="saveForm"
                 :loading="isLoading"
                 :styled="false"
-                >Open</VueLoadingButton
+                >Access</VueLoadingButton
               >
             </div>
           </div>
         </form>
       </div>
     </div>
+    <v-dialog />
+    <!-- <modal name="admin-contact">
+      <p>Contact Building Manager</p>
+      <p>+61 42567 5791</p>
+    </modal> -->
   </div>
 </template>
 
@@ -116,8 +141,8 @@ export default {
   data: function () {
     return {
       company: {
-        size: "0",
-        owner: "",
+        name: "",
+        password: "",
         recaptcha: "",
         unique: this.$route.params.id,
       },
@@ -125,6 +150,7 @@ export default {
       errors: [],
       isLoading: false,
       address: "",
+      phone: "",
     };
   },
   mounted() {
@@ -133,6 +159,7 @@ export default {
       .get(`/api/v1/lockers/check_courier/${this.$route.params.id}`)
       .then(function (resp) {
         app.address = resp.data.address;
+        app.phone = resp.data.phone;
       })
       .catch(function (resp) {
         console.log(resp);
@@ -147,13 +174,21 @@ export default {
       var data = event.target.value;
       this.company.size = data;
     },
+    openContactModal(e) {
+      // this.$modal.show("admin-contact");
+      this.$modal.show("dialog", {
+        title: "Contact Information",
+        text: `Call Building Manager ${this.phone} 😎`,
+      });
+      e.preventDefault();
+    },
     saveForm() {
       var app = this;
       var newCompany = app.company;
       this.errors = [];
       this.isLoading = true;
       axios
-        .post("/api/v1/lockers/new_assign", newCompany)
+        .post("/api/v1/lockers/access_foyer", newCompany)
         .then((resp) => {
           console.log(resp);
           this.$refs.recaptcha.reset();
@@ -161,14 +196,15 @@ export default {
           if (resp.data.result == 0) {
             this.$toast.success({
               title: "Success",
-              message: "Owner will get notified after lock.",
+              message: "You can access foyer right now.",
               showMethod: "slideInRight",
             });
-            app.$router.push({ path: "/thanks" });
+            app.$router.go(-1);
+            // app.$router.push({ path: "/thanks" });
           } else {
             this.$toast.warn({
               title: "Warning",
-              message: "No available locker for the size",
+              message: "Invalidate credentails",
               showMethod: "slideInRight",
             });
           }

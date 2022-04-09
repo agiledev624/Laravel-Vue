@@ -19,7 +19,7 @@ class SettingController extends Controller
         return Setting::all();
     }
 
-    public function set_sms(Request $request) 
+    public function set_sms(Request $request)
     {
         $request->validate([
             'port' => 'required',
@@ -48,17 +48,46 @@ class SettingController extends Controller
             'msg' => '',
         ];
         $locker = Setting::select('*')->where('key', 'sms_port')->get();
-        if (!$locker->isEmpty()){
+        if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
             $response['port'] = $firstLocker->value;
         }
         $locker = Setting::select('*')->where('key', 'sms_msg')->get();
-        if (!$locker->isEmpty()){
+        if (!$locker->isEmpty()) {
             $firstLocker = $locker->first();
             $response['msg'] = $firstLocker->value;
         }
         return response()->json($response, 200);
     }
+
+    public function set_foyer(Request $request)
+    {
+        $request->validate([
+            'foyer_code' => 'required',
+        ]);
+        $input = $request->all();
+        $flight = Setting::updateOrCreate(
+            ['key' => 'foyer_code'],
+            ['value' => $input['foyer_code']]
+        );
+        $response = [
+            'result' => '0',
+            'msg' => 'ok',
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function get_foyer()
+    {
+        $response = '';
+        $locker = Setting::select('*')->where('key', 'foyer_code')->get();
+        if (!$locker->isEmpty()) {
+            $firstLocker = $locker->first();
+            $response = $firstLocker->value;
+        }
+        return response()->json($response, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -124,6 +153,4 @@ class SettingController extends Controller
     {
         //
     }
-
-
 }
