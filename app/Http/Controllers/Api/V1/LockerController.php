@@ -418,7 +418,8 @@ class LockerController extends Controller
             ], 200);
         }
 
-        if ($courier->first()->password != bcrypt($input['password'])) {
+        // if ($courier->first()->password != bcrypt($input['password'])) {
+        if (!Hash::check($input['password'], $courier->first()->password) {
             return response()->json([
                 'result' => '1',
                 'message' => 'Wrong password'
