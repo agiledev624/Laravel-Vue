@@ -138,7 +138,8 @@ class LockerController extends Controller
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
         }
-        $url = url('') . '/owner/' . $depart->first()->owner;
+        // $url = url('') . '/owner/' . $depart->first()->owner;
+        $url = 'http://stratalockers.com.au' . '/owner/' . $depart->first()->owner;
         // return '';
         $locker = Locker::select('*')->where([['owner', '0'], ['size', $input['size']], ['port', $depart->first()->port]])->orderBy('number')->get();
 
@@ -303,7 +304,8 @@ class LockerController extends Controller
                 'message' => 'Invaid request to the server. (Illegal Url)'
             ], 500);
         }
-        $url = url('') . '/owner/' . $depart->first()->owner;
+        // $url = url('') . '/owner/' . $depart->first()->owner;
+        $url = 'http://stratalockers.com.au' . '/owner/' . $depart->first()->owner;
 
         send_sms_via_gsm($result->first()->phone, $input['apart_number'], Setting::where('key', 'sms_msg')->first()->value, $url);
 
@@ -361,7 +363,8 @@ class LockerController extends Controller
                     if ($port < 0) {
                         $user = User::select('*')->where('port', $locker->port)->orderBy('id')->get()->first();
                         $port = $locker->port;
-                        $url = url('') . '/owner/' . $user->owner;
+                        // $url = url('') . '/owner/' . $user->owner;
+                        $url = 'http://stratalockers.com.au' . '/owner/' . $user->owner;
                     }
                     if ((now()->timestamp - $locker->locked_time) >= $MAX_DIFF_TIME) {
                         $apart = Apart::where([['number', $locker['owner']], ['user_id', $user->id]])->first();
