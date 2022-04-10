@@ -11,6 +11,7 @@ use App\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Rules\Recaptcha;
+use Illuminate\Support\Facades\Hash;
 
 class LockerController extends Controller
 {
