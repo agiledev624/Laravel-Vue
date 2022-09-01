@@ -177,6 +177,7 @@ class LockerController extends Controller
                 $response = [
                     'result' => '0',
                     'message' => 'ok',
+                    'locker' => $firstLocker->number
                 ];
 
                 return response()->json($response, 200);
@@ -238,6 +239,7 @@ class LockerController extends Controller
                     $response = [
                         'result' => '0',
                         'message' => 'succeed',
+                        'ids' => $result->pluck('number')
                     ];
                 }
             } else {

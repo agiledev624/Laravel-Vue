@@ -15,7 +15,7 @@ import VModal from 'vue-js-modal'
 // import 'vue-js-modal/dist/styles.css'
 
 window.Vue.use(VueRouter)
-window.Vue.use(CxltToastr, { position: 'bottom right' })
+window.Vue.use(CxltToastr, { position: 'bottom right', showDuration: 2000 })
 window.Vue.use(VModal, { dialog: true })
 // window.Vue.use(Popover)
 import CompaniesIndex from './components/companies/CompaniesIndex.vue'

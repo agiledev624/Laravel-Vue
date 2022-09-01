@@ -151,7 +151,7 @@ export default {
           } else {
             this.$toast.success({
               title: "Success",
-              message: "Please check your lockers.",
+              message: `Please check your lockers. ${resp.data.ids.map(i => i)}`,
               showMethod: "slideInRight",
             });
           }

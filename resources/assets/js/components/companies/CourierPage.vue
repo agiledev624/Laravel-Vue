@@ -161,7 +161,7 @@ export default {
           if (resp.data.result == 0) {
             this.$toast.success({
               title: "Success",
-              message: "Owner will get notified after lock.",
+              message: `Put your parcel at Locker ${resp.data.locker}. Owner will get notified after lock.`,
               showMethod: "slideInRight",
             });
             app.$router.push({ path: "/thanks" });
